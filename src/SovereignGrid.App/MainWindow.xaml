@@ -3,53 +3,17 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="SovereignGrid"
-    Width="1200"
-    Height="800">
+    Width="1400"
+    Height="900">
 
-    <Grid Margin="20">
+    <Grid>
 
-        <StackPanel>
-
-            <TextBlock
-                FontSize="36"
-                FontWeight="Bold"
-                Text="{Binding ProductName}" />
-
-            <TextBlock Text="{Binding Status}" />
-            <TextBlock Text="{Binding Mode}" />
-            <TextBlock Text="{Binding Version}" />
-
-            <Separator Margin="0,20,0,20"/>
-
-            <TextBlock
-                FontSize="24"
-                FontWeight="Bold"
-                Text="Demo Asset" />
-
-            <Border
-                Margin="0,10,0,0"
-                Padding="15"
-                BorderThickness="1">
-
-                <StackPanel>
-
-                    <TextBlock
-                        Text="{Binding DemoAsset.AssetTag}" />
-
-                    <TextBlock
-                        Text="{Binding DemoAsset.Description}" />
-
-                    <TextBlock
-                        Text="{Binding DemoAsset.Location}" />
-
-                    <TextBlock
-                        Text="{Binding DemoAsset.Status}" />
-
-                </StackPanel>
-
-            </Border>
-
-        </StackPanel>
+        <DataGrid
+            Name="SpreadsheetGrid"
+            AutoGenerateColumns="True"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            HeadersVisibility="All" />
 
     </Grid>
 
