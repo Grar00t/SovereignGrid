@@ -1,11 +1,11 @@
-namespace SovereignGrid.Core.Workbook;
+namespace SovereignGrid.Core.Persistence;
 
-public sealed class Cell
+public sealed class CellFile
 {
     public int Row { get; set; }
 
     public int Column { get; set; }
 
     public string Value { get; set; }
-        = string.Empty;
+        = "";
 }

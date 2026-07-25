@@ -9,11 +9,10 @@
     <Grid>
 
         <DataGrid
-            Name="SpreadsheetGrid"
             AutoGenerateColumns="True"
+            ItemsSource="{Binding Rows}"
             CanUserAddRows="False"
-            CanUserDeleteRows="False"
-            HeadersVisibility="All" />
+            CanUserDeleteRows="False"/>
 
     </Grid>
 
