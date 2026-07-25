@@ -1,0 +1,26 @@
+{
+  "productName": "SovereignGrid",
+  "classification": "Unspecified",
+  "telemetry": false,
+  "cloudRequired": false,
+  "offlineSupported": true,
+
+  "neutrality": {
+    "organizationSpecificContentAllowed": false,
+    "realCustomerDataAllowed": false,
+    "realAssetDataAllowed": false,
+    "realScreenshotsAllowed": false
+  },
+
+  "security": {
+    "allowUnsignedPlugins": false,
+    "networkDefault": "deny",
+    "localDiagnosticsOnly": true
+  },
+
+  "localization": {
+    "primaryLanguage": "en",
+    "secondaryLanguage": "ar",
+    "rtlSupported": true
+  }
+}
