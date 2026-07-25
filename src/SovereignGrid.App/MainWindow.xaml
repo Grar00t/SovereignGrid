@@ -15,25 +15,37 @@
                 FontWeight="Bold"
                 Text="{Binding ProductName}" />
 
-            <TextBlock
-                Margin="0,5,0,0"
-                Text="{Binding Status}" />
+            <TextBlock Text="{Binding Status}" />
+            <TextBlock Text="{Binding Mode}" />
+            <TextBlock Text="{Binding Version}" />
+
+            <Separator Margin="0,20,0,20"/>
 
             <TextBlock
-                Margin="0,5,0,0"
-                Text="{Binding Mode}" />
-
-            <TextBlock
-                Margin="0,5,0,20"
-                Text="{Binding Version}" />
+                FontSize="24"
+                FontWeight="Bold"
+                Text="Demo Asset" />
 
             <Border
-                Padding="20"
+                Margin="0,10,0,0"
+                Padding="15"
                 BorderThickness="1">
 
-                <TextBlock
-                    FontSize="20"
-                    Text="Workbook Engine Connected" />
+                <StackPanel>
+
+                    <TextBlock
+                        Text="{Binding DemoAsset.AssetTag}" />
+
+                    <TextBlock
+                        Text="{Binding DemoAsset.Description}" />
+
+                    <TextBlock
+                        Text="{Binding DemoAsset.Location}" />
+
+                    <TextBlock
+                        Text="{Binding DemoAsset.Status}" />
+
+                </StackPanel>
 
             </Border>
 
