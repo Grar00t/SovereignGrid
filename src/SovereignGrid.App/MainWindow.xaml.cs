@@ -140,6 +140,25 @@ public partial class MainWindow : Window
 
         FindBtn.Click += (_, _) => ShowFindReplace();
 
+        FormulaBox.KeyDown += (_, e) =>
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                try { Sheet[Sel.Row, Sel.Col] = FormulaBox.Text; } catch { }
+            }
+        };
+
+        ZoomSlider.ValueChanged += (_, _) =>
+        {
+            try
+            {
+                float z = (float)(ZoomSlider.Value / 100.0);
+                Sheet.SetScale(z);
+                ZoomText.Text = ((int)ZoomSlider.Value) + "%";
+            }
+            catch { }
+        };
+
         RtlButton.Click += (_, _) => ToggleRtl();
 
         Sheet.SelectionRangeChanged += (_, _) => UpdateStatus();
@@ -188,6 +207,10 @@ public partial class MainWindow : Window
         try
         {
             CellRefText.Text = Sel.StartPos.ToAddress();
+            NameBox.Text = Sel.StartPos.ToAddress();
+            var active = Sheet.GetCell(Sel.Row, Sel.Col);
+            FormulaBox.Text = active?.Formula is string f && f.Length > 0 ? "=" + f
+                              : active?.Data?.ToString() ?? "";
 
             double sum = 0; int count = 0;
             for (int r = Sel.Row; r <= Sel.EndRow; r++)
