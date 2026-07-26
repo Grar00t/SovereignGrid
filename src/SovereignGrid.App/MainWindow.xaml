@@ -229,6 +229,7 @@
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Export"/>
               <Button Name="ExportPngBtn" Style="{StaticResource RB}" ToolTip="Export Chart to PNG" Content="&#xEB9F;"/>
+                <Button Name="ShapeBtn" Style="{StaticResource RBText}" ToolTip="Insert Shape" Content="Shape"/>
             </DockPanel>
           </Border>
         </StackPanel></ScrollViewer>
@@ -329,6 +330,7 @@
     <Grid Name="RootGrid"/>
   </DockPanel>
 </Window>
+
 
 
 

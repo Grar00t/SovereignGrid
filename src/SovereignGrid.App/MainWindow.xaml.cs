@@ -181,6 +181,8 @@ public partial class MainWindow : Window
 
         this.KeyDown += (_, e) => { if (e.Key == System.Windows.Input.Key.F11) ToggleFullScreen(); };
 
+        ShapeBtn.Click += (_, _) => InsertShape();
+
         RtlButton.Click += (_, _) => ToggleRtl();
 
         Sheet.SelectionRangeChanged += (_, _) => UpdateStatus();
@@ -531,6 +533,27 @@ public partial class MainWindow : Window
             _grid.ControlStyle = cs;
         }
         catch { }
+    }
+
+    private void InsertShape()
+    {
+        var kind = InputDialog.Ask("Insert Shape", "Type: rectangle / ellipse / line", "rectangle");
+        if (string.IsNullOrWhiteSpace(kind)) return;
+
+        try
+        {
+            var loc = new unvell.ReoGrid.Graphics.Point(60, 60);
+            var size = new unvell.ReoGrid.Graphics.Size(160, 90);
+            unvell.ReoGrid.Drawing.IDrawingObject shape = kind.Trim().ToLower() switch
+            {
+                "ellipse" => new unvell.ReoGrid.Drawing.Shapes.EllipseShape { Location = loc, Size = size },
+                "line"    => new unvell.ReoGrid.Drawing.Shapes.Line
+                             { StartPoint = loc, EndPoint = new unvell.ReoGrid.Graphics.Point(220, 150) },
+                _         => new unvell.ReoGrid.Drawing.Shapes.RectangleShape { Location = loc, Size = size }
+            };
+            Sheet.FloatingObjects.Add(shape);
+        }
+        catch (System.Exception ex) { System.Windows.MessageBox.Show("Shape error: " + ex.Message); }
     }
 
     private bool _isFull = false;
