@@ -88,6 +88,13 @@
         <Button Name="ChartLineBtn" Content="Line Chart"   Padding="8,3"/>
         <Button Name="ChartPieBtn"  Content="Pie Chart"    Padding="8,3"/>
       </ToolBar>
+      <ToolBar Band="1">
+        <Button Name="FilterBtn"   Content="AutoFilter"    Padding="8,3"/>
+        <Button Name="FreezeBtn"   Content="Freeze"        Padding="8,3"/>
+        <Button Name="UnfreezeBtn" Content="Unfreeze"      Padding="8,3"/>
+        <Separator/>
+        <Button Name="ExportPngBtn" Content="Chart to PNG" Padding="8,3"/>
+      </ToolBar>
 
     </ToolBarTray>
 
@@ -100,4 +107,5 @@
     <Grid Name="RootGrid"/>
   </DockPanel>
 </Window>
+
 

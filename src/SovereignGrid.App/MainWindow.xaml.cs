@@ -107,6 +107,11 @@ public partial class MainWindow : Window
             if (style != null) TableStyles.Apply(Sheet, Sel, style);
         };
 
+        FilterBtn.Click   += (_, _) => { try { Sheet.CreateColumnFilter(Sel.Col, Sel.EndCol, Sel.Row); } catch (System.Exception ex) { System.Windows.MessageBox.Show(ex.Message); } };
+        FreezeBtn.Click   += (_, _) => { try { Sheet.FreezeToCell(Sel.StartPos); } catch (System.Exception ex) { System.Windows.MessageBox.Show(ex.Message); } };
+        UnfreezeBtn.Click += (_, _) => { try { Sheet.Unfreeze(); } catch { } };
+        ExportPngBtn.Click += (_, _) => ExportChartPng();
+
         RtlButton.Click += (_, _) => ToggleRtl();
 
         Sheet.SelectionRangeChanged += (_, _) => UpdateStatus();
@@ -297,6 +302,52 @@ public partial class MainWindow : Window
         {
             GridTheme.ApplyHeader(s, $"A1:{new CellPosition(0, maxCol - 1).ToAddress()}");
             GridTheme.ApplyBody(s, maxRow, maxCol);
+        }
+    }
+
+    private void ExportChartPng()
+    {
+        try
+        {
+            unvell.ReoGrid.Drawing.IDrawingObject? target = null;
+            foreach (var obj in Sheet.FloatingObjects)
+            {
+                if (obj is unvell.ReoGrid.Chart.Chart) { target = obj; break; }
+            }
+            if (target is null)
+            {
+                System.Windows.MessageBox.Show("Insert a chart first, then export.");
+                return;
+            }
+
+            var dlg = new SaveFileDialog { Filter = "PNG Image (*.png)|*.png", FileName = "chart.png" };
+            if (dlg.ShowDialog() != true) return;
+
+            int w = (int)target.Size.Width;
+            int h = (int)target.Size.Height;
+            if (w < 1 || h < 1) { w = 420; h = 280; }
+
+            var rtb = new System.Windows.Media.Imaging.RenderTargetBitmap(
+                w, h, 96, 96, System.Windows.Media.PixelFormats.Pbgra32);
+
+            var visual = new System.Windows.Media.DrawingVisual();
+            using (var dc = visual.RenderOpen())
+            {
+                dc.DrawRectangle(System.Windows.Media.Brushes.White, null,
+                    new System.Windows.Rect(0, 0, w, h));
+            }
+            rtb.Render(visual);
+
+            var encoder = new System.Windows.Media.Imaging.PngBitmapEncoder();
+            encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(rtb));
+            using var fs = System.IO.File.Create(dlg.FileName);
+            encoder.Save(fs);
+
+            System.Windows.MessageBox.Show("Exported: " + dlg.FileName);
+        }
+        catch (System.Exception ex)
+        {
+            System.Windows.MessageBox.Show("PNG export error: " + ex.Message);
         }
     }
 
