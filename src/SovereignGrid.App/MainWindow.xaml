@@ -99,7 +99,7 @@
 
   <DockPanel>
 
-    <Border DockPanel.Dock="Top" Background="#217346" Padding="16,7">
+    <Border x:Name="TitleBar" DockPanel.Dock="Top" Background="#217346" Padding="16,7">
       <StackPanel Orientation="Horizontal">
         <TextBlock Text="SovereignGrid" Foreground="White" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
         <TextBlock Text="Local Spreadsheet Workspace" Foreground="#BFE3CD" FontSize="11"
@@ -272,6 +272,7 @@
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Direction"/>
               <Button Name="RtlButton" Style="{StaticResource RBText}" ToolTip="Toggle RTL / LTR" Content="RTL/LTR"/>
                 <Button Name="FullScreenBtn" Style="{StaticResource RBText}" ToolTip="Toggle Full Screen (F11)" Content="Full Screen"/>
+                <ComboBox Name="ThemeBox" Width="90" VerticalAlignment="Center" Margin="6,0,0,0"/>
             </DockPanel>
           </Border>
         </StackPanel></ScrollViewer>
@@ -305,7 +306,7 @@
 
     </TabControl>
 
-    <Border DockPanel.Dock="Bottom" Background="#217346" Padding="12,4">
+    <Border x:Name="StatusBar" DockPanel.Dock="Bottom" Background="#217346" Padding="12,4">
       <StackPanel Orientation="Horizontal">
         <TextBlock Name="CellRefText" Foreground="White" FontWeight="SemiBold" Margin="0,0,24,0" Text="A1"/>
         <TextBlock Name="StatsText" Foreground="#CDEBD9" Text=""/>
@@ -328,6 +329,8 @@
     <Grid Name="RootGrid"/>
   </DockPanel>
 </Window>
+
+
 
 
 

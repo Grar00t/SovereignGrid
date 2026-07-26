@@ -40,6 +40,10 @@ public partial class MainWindow : Window
         WireEvents();
         InitZoomTimer();
         HookCellChanges();
+        InitAutoSave();
+        ThemeBox.ItemsSource = new[] { "Green", "Blue", "Dark" };
+        ThemeBox.SelectedIndex = 0;
+        ThemeBox.SelectionChanged += (_, _) => ApplyTheme(ThemeBox.SelectedItem as string);
     }
 
     private void WireEvents()
@@ -472,6 +476,59 @@ public partial class MainWindow : Window
                     FormulaBox.Text = cell?.Data?.ToString() ?? "";
                 }
             };
+        }
+        catch { }
+    }
+
+    private readonly System.Windows.Threading.DispatcherTimer _autoSaveTimer = new()
+        { Interval = System.TimeSpan.FromMinutes(2) };
+
+
+    private void InitAutoSave()
+    {
+        _autoSaveTimer.Tick += (_, _) =>
+        {
+            try
+            {
+                var dir = System.IO.Path.Combine(
+                    System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData),
+                    "SovereignGrid", "AutoSave");
+                System.IO.Directory.CreateDirectory(dir);
+                var path = System.IO.Path.Combine(dir, "autosave.sgrid");
+                _grid.Save(path, unvell.ReoGrid.IO.FileFormat.ReoGridFormat);
+                CellRefText.Text = "Auto-saved " + System.DateTime.Now.ToString("HH:mm");
+            }
+            catch { }
+        };
+        _autoSaveTimer.Start();
+    }
+
+    private void ApplyTheme(string? name)
+    {
+        string bg = name switch { "Blue" => "#1E3A5F", "Dark" => "#2B2B2B", _ => "#217346" };
+        var brush = (System.Windows.Media.Brush)new System.Windows.Media.BrushConverter().ConvertFrom(bg)!;
+        TitleBar.Background = brush;
+        StatusBar.Background = brush;
+
+        // Deep: grid background + selection color via ReoGrid ControlStyle
+        try
+        {
+            var cs = _grid.ControlStyle;
+            if (name == "Dark")
+            {
+                cs.SetColor(unvell.ReoGrid.ControlAppearanceColors.GridBackground,
+                    unvell.ReoGrid.Graphics.SolidColor.FromArgb(255, 45, 45, 45));
+                cs.SetColor(unvell.ReoGrid.ControlAppearanceColors.GridText,
+                    unvell.ReoGrid.Graphics.SolidColor.White);
+            }
+            else
+            {
+                cs.SetColor(unvell.ReoGrid.ControlAppearanceColors.GridBackground,
+                    unvell.ReoGrid.Graphics.SolidColor.White);
+                cs.SetColor(unvell.ReoGrid.ControlAppearanceColors.GridText,
+                    unvell.ReoGrid.Graphics.SolidColor.Black);
+            }
+            _grid.ControlStyle = cs;
         }
         catch { }
     }
