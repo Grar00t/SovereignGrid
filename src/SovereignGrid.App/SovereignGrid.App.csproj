@@ -3,6 +3,10 @@
     <ProjectReference Include="..\SovereignGrid.Core\SovereignGrid.Core.csproj" />
     <ProjectReference Include="..\SovereignGrid.Storage\SovereignGrid.Storage.csproj" />
     <ProjectReference Include="..\SovereignGrid.Plugins\SovereignGrid.Plugins.csproj" />
+    <ProjectReference Include="..\SovereignGrid.Connectors.Abstractions\SovereignGrid.Connectors.Abstractions.csproj" />
+    <ProjectReference Include="..\SovereignGrid.Connectors.Oracle\SovereignGrid.Connectors.Oracle.csproj" />
+    <ProjectReference Include="..\SovereignGrid.Connectors.Db2\SovereignGrid.Connectors.Db2.csproj" />
+    <ProjectReference Include="..\SovereignGrid.Connectors.Excel\SovereignGrid.Connectors.Excel.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <OutputType>WinExe</OutputType>

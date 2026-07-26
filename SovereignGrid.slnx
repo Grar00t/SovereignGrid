@@ -3,6 +3,7 @@
     <Project Path="src/SovereignGrid.App/SovereignGrid.App.csproj" />
     <Project Path="src/SovereignGrid.Connectors.Abstractions/SovereignGrid.Connectors.Abstractions.csproj" />
     <Project Path="src/SovereignGrid.Connectors.Db2/SovereignGrid.Connectors.Db2.csproj" />
+    <Project Path="src/SovereignGrid.Connectors.Excel/SovereignGrid.Connectors.Excel.csproj" />
     <Project Path="src/SovereignGrid.Connectors.Oracle/SovereignGrid.Connectors.Oracle.csproj" />
     <Project Path="src/SovereignGrid.Core/SovereignGrid.Core.csproj" />
     <Project Path="src/SovereignGrid.Plugins/SovereignGrid.Plugins.csproj" />
