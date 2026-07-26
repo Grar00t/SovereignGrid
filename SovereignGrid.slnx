@@ -2,6 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/SovereignGrid.App/SovereignGrid.App.csproj" />
     <Project Path="src/SovereignGrid.Connectors.Abstractions/SovereignGrid.Connectors.Abstractions.csproj" />
+    <Project Path="src/SovereignGrid.Connectors.Oracle/SovereignGrid.Connectors.Oracle.csproj" />
     <Project Path="src/SovereignGrid.Core/SovereignGrid.Core.csproj" />
     <Project Path="src/SovereignGrid.Plugins/SovereignGrid.Plugins.csproj" />
     <Project Path="src/SovereignGrid.Storage/SovereignGrid.Storage.csproj" />
