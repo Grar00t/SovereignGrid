@@ -49,9 +49,9 @@ public partial class MainWindow : Window
 
         UndoBtn.Click  += (_, _) => _grid.Undo();
         RedoBtn.Click  += (_, _) => _grid.Redo();
-        CutBtn.Click   += (_, _) => _grid.Cut();
-        CopyBtn.Click  += (_, _) => _grid.Copy();
-        PasteBtn.Click += (_, _) => _grid.Paste();
+        CutBtn.Click   += (_, _) => { try { Sheet.Cut();   } catch { } };
+        CopyBtn.Click  += (_, _) => { try { Sheet.Copy();  } catch { } };
+        PasteBtn.Click += (_, _) => { try { Sheet.Paste(); } catch { } };
 
         FontBox.SelectionChanged += (_, _) => { if (FontBox.SelectedItem is string f)
             Apply(new WorksheetRangeStyle { Flag = PlainStyleFlag.FontName, FontName = f }); };
@@ -62,22 +62,22 @@ public partial class MainWindow : Window
         ItalicBtn.Click    += (_, _) => Apply(new WorksheetRangeStyle { Flag = PlainStyleFlag.FontStyleItalic, Italic = ItalicBtn.IsChecked == true });
         UnderlineBtn.Click += (_, _) => Apply(new WorksheetRangeStyle { Flag = PlainStyleFlag.FontStyleUnderline, Underline = UnderlineBtn.IsChecked == true });
 
-        TextColorBtn.Click += (_, _) => { var c = PickColor(); if (c.HasValue)
+        TextColorBtn.Click += (_, _) => { var c = ColorPickerDialog.Pick(); if (c.HasValue)
             Apply(new WorksheetRangeStyle { Flag = PlainStyleFlag.TextColor, TextColor = c.Value }); };
-        FillColorBtn.Click += (_, _) => { var c = PickColor(); if (c.HasValue)
+        FillColorBtn.Click += (_, _) => { var c = ColorPickerDialog.Pick(); if (c.HasValue)
             Apply(new WorksheetRangeStyle { Flag = PlainStyleFlag.BackColor, BackColor = c.Value }); };
 
         AlignLeftBtn.Click   += (_, _) => Apply(HAlign(ReoGridHorAlign.Left));
         AlignCenterBtn.Click += (_, _) => Apply(HAlign(ReoGridHorAlign.Center));
         AlignRightBtn.Click  += (_, _) => Apply(HAlign(ReoGridHorAlign.Right));
 
-        MergeBtn.Click   += (_, _) => { try { Sheet.MergeRange(Sel); } catch (System.Exception ex) { MessageBox.Show(ex.Message); } };
-        UnmergeBtn.Click += (_, _) => { try { Sheet.UnmergeRange(Sel); } catch (System.Exception ex) { MessageBox.Show(ex.Message); } };
+        MergeBtn.Click   += (_, _) => { try { Sheet.MergeRange(Sel); } catch (System.Exception ex) { System.Windows.MessageBox.Show(ex.Message); } };
+        UnmergeBtn.Click += (_, _) => { try { Sheet.UnmergeRange(Sel); } catch (System.Exception ex) { System.Windows.MessageBox.Show(ex.Message); } };
 
         FmtNumberBtn.Click   += (_, _) => Sheet.SetRangeDataFormat(Sel, CellDataFormatFlag.Number,
             new NumberDataFormatter.NumberFormatArgs { DecimalPlaces = 2, UseSeparator = true });
-        FmtCurrencyBtn.Click += (_, _) => Sheet.SetRangeDataFormat(Sel, CellDataFormatFlag.Currency,
-            new CurrencyDataFormatter.CurrencyFormatArgs { DecimalPlaces = 2, PrefixSymbol = "﷼ ", CultureEnglishName = "en-US" });
+        FmtCurrencyBtn.Click += (_, _) => Sheet.SetRangeDataFormat(Sel, CellDataFormatFlag.Number,
+            new NumberDataFormatter.NumberFormatArgs { DecimalPlaces = 2, UseSeparator = true });
         FmtPercentBtn.Click  += (_, _) => Sheet.SetRangeDataFormat(Sel, CellDataFormatFlag.Percent,
             new NumberDataFormatter.NumberFormatArgs { DecimalPlaces = 0 });
         FmtDateBtn.Click     += (_, _) => Sheet.SetRangeDataFormat(Sel, CellDataFormatFlag.DateTime,
@@ -102,17 +102,6 @@ public partial class MainWindow : Window
     private static WorksheetRangeStyle HAlign(ReoGridHorAlign a) =>
         new() { Flag = PlainStyleFlag.HorizontalAlign, HAlign = a };
 
-    private static SolidColor? PickColor()
-    {
-        using var dlg = new System.Windows.Forms.ColorDialog { FullOpen = true };
-        if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-        {
-            var c = dlg.Color;
-            return SolidColor.FromArgb(c.A, c.R, c.G, c.B);
-        }
-        return null;
-    }
-
     private void NewFile()
     {
         _grid.Reset();
@@ -124,7 +113,7 @@ public partial class MainWindow : Window
         var dlg = new OpenFileDialog { Filter = "Excel (*.xlsx)|*.xlsx" };
         if (dlg.ShowDialog() == true)
             try { _grid.Load(dlg.FileName, FileFormat.Excel2007); }
-            catch (System.Exception ex) { MessageBox.Show(ex.Message); }
+            catch (System.Exception ex) { System.Windows.MessageBox.Show(ex.Message); }
     }
 
     private void SaveXlsx()
@@ -132,7 +121,7 @@ public partial class MainWindow : Window
         var dlg = new SaveFileDialog { Filter = "Excel (*.xlsx)|*.xlsx", FileName = "workbook.xlsx" };
         if (dlg.ShowDialog() == true)
             try { _grid.Save(dlg.FileName, FileFormat.Excel2007); }
-            catch (System.Exception ex) { MessageBox.Show(ex.Message); }
+            catch (System.Exception ex) { System.Windows.MessageBox.Show(ex.Message); }
     }
 
     private async System.Threading.Tasks.Task OpenViaConnectorAsync()
@@ -159,11 +148,11 @@ public partial class MainWindow : Window
         try
         {
             var result = await connector.ImportAsync(coreSheet, options);
-            if (!result.Success) { MessageBox.Show(result.Message); return; }
+            if (!result.Success) { System.Windows.MessageBox.Show(result.Message); return; }
             RenderCoreToGrid(coreSheet);
-            MessageBox.Show($"{result.Message}  ({result.RowsAffected} rows)");
+            System.Windows.MessageBox.Show($"{result.Message}  ({result.RowsAffected} rows)");
         }
-        catch (System.Exception ex) { MessageBox.Show(ex.Message); }
+        catch (System.Exception ex) { System.Windows.MessageBox.Show(ex.Message); }
     }
 
     private void RenderCoreToGrid(SovereignGrid.Core.Workbook.Worksheet coreSheet)
@@ -190,7 +179,8 @@ public partial class MainWindow : Window
 
     private void ToggleRtl()
     {
-        FlowDirection = FlowDirection == FlowDirection.LeftToRight
-            ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+        this.FlowDirection = this.FlowDirection == System.Windows.FlowDirection.LeftToRight
+            ? System.Windows.FlowDirection.RightToLeft
+            : System.Windows.FlowDirection.LeftToRight;
     }
 }
