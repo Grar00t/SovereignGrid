@@ -2,346 +2,245 @@
     x:Class="SovereignGrid.App.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="SovereignGrid" Width="1500" Height="920" MinWidth="900" MinHeight="600" WindowState="Maximized"
-    FlowDirection="LeftToRight" FontFamily="Segoe UI" Background="#F3F3F3">
+    Title="SovereignGrid" Width="1500" Height="920"
+    MinWidth="900" MinHeight="600" WindowState="Maximized"
+    FontFamily="Segoe UI" Background="#F3F3F3">
 
   <Window.Resources>
-    <!-- Icon button (Fluent glyph) -->
     <Style x:Key="RB" TargetType="Button">
-      <Setter Property="MinWidth" Value="46"/>
-      <Setter Property="Height" Value="46"/>
-      <Setter Property="Margin" Value="1"/>
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="BorderThickness" Value="1"/>
-      <Setter Property="BorderBrush" Value="Transparent"/>
-      <Setter Property="Foreground" Value="#333333"/>
-      <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets"/>
-      <Setter Property="FontSize" Value="18"/>
-      <Setter Property="Cursor" Value="Hand"/>
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="Button">
-            <Border x:Name="b" Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3">
-              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,2"/>
-            </Border>
-            <ControlTemplate.Triggers>
-              <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="b" Property="Background" Value="#E6F2EA"/>
-                <Setter TargetName="b" Property="BorderBrush" Value="#8FC7A6"/>
-              </Trigger>
-              <Trigger Property="IsPressed" Value="True">
-                <Setter TargetName="b" Property="Background" Value="#C9E5D5"/>
-              </Trigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
+      <Setter Property="MinWidth" Value="64"/><Setter Property="Height" Value="52"/>
+      <Setter Property="Margin" Value="1"/><Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderThickness" Value="1"/><Setter Property="BorderBrush" Value="Transparent"/>
+      <Setter Property="Foreground" Value="#333"/><Setter Property="FontSize" Value="12"/><Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template"><Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="b" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3">
+            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,2"/></Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="b" Property="Background" Value="#E6F2EA"/>
+              <Setter TargetName="b" Property="BorderBrush" Value="#8FC7A6"/></Trigger>
+            <Trigger Property="IsPressed" Value="True">
+              <Setter TargetName="b" Property="Background" Value="#C9E5D5"/></Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate></Setter.Value></Setter>
     </Style>
-
-    <!-- Text button (same look, normal font) -->
-    <Style x:Key="RBText" TargetType="Button" BasedOn="{StaticResource RB}">
-      <Setter Property="FontFamily" Value="Segoe UI"/>
-      <Setter Property="FontSize" Value="12"/>
-    </Style>
-
+    <Style x:Key="RBText" TargetType="Button" BasedOn="{StaticResource RB}"/>
     <Style x:Key="RBToggle" TargetType="ToggleButton">
-      <Setter Property="Width" Value="34"/>
-      <Setter Property="Height" Value="30"/>
-      <Setter Property="Margin" Value="1"/>
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="BorderThickness" Value="1"/>
-      <Setter Property="BorderBrush" Value="#DDDDDD"/>
-      <Setter Property="Cursor" Value="Hand"/>
-      <Setter Property="FontSize" Value="13"/>
+      <Setter Property="Width" Value="34"/><Setter Property="Height" Value="30"/><Setter Property="Margin" Value="1"/>
+      <Setter Property="Background" Value="Transparent"/><Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="BorderBrush" Value="#DDD"/><Setter Property="Cursor" Value="Hand"/><Setter Property="FontSize" Value="13"/>
     </Style>
-
     <Style x:Key="GroupLabel" TargetType="TextBlock">
-      <Setter Property="FontSize" Value="10"/>
-      <Setter Property="Foreground" Value="#888888"/>
-      <Setter Property="HorizontalAlignment" Value="Center"/>
-      <Setter Property="Margin" Value="0,2,0,0"/>
+      <Setter Property="FontSize" Value="10"/><Setter Property="Foreground" Value="#888"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/><Setter Property="Margin" Value="0,3,0,0"/>
     </Style>
-
     <Style x:Key="Group" TargetType="Border">
-      <Setter Property="BorderBrush" Value="#E0E0E0"/>
-      <Setter Property="BorderThickness" Value="0,0,1,0"/>
-      <Setter Property="Padding" Value="6,4"/>
-      <Setter Property="Margin" Value="2,0"/>
+      <Setter Property="BorderBrush" Value="#E0E0E0"/><Setter Property="BorderThickness" Value="0,0,1,0"/>
+      <Setter Property="Padding" Value="8,4"/><Setter Property="Margin" Value="2,0"/>
     </Style>
-
     <Style x:Key="TabHdr" TargetType="TabItem">
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="TabItem">
-            <Border x:Name="bd" Padding="16,7" Margin="1,0" Background="Transparent">
-              <ContentPresenter ContentSource="Header"
-                                TextBlock.FontSize="13" TextBlock.Foreground="#444444"/>
-            </Border>
-            <ControlTemplate.Triggers>
-              <Trigger Property="IsSelected" Value="True">
-                <Setter TargetName="bd" Property="Background" Value="White"/>
-                <Setter TargetName="bd" Property="BorderBrush" Value="#217346"/>
-                <Setter TargetName="bd" Property="BorderThickness" Value="0,0,0,3"/>
-                <Setter Property="TextBlock.Foreground" Value="#217346"/>
-                <Setter Property="TextBlock.FontWeight" Value="SemiBold"/>
-              </Trigger>
-              <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="bd" Property="Background" Value="#F0F6F2"/>
-              </Trigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
+      <Setter Property="Template"><Setter.Value>
+        <ControlTemplate TargetType="TabItem">
+          <Border x:Name="bd" Padding="18,8" Margin="1,0" Background="Transparent">
+            <ContentPresenter ContentSource="Header" TextBlock.FontSize="13" TextBlock.Foreground="#444"/></Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+              <Setter TargetName="bd" Property="Background" Value="White"/>
+              <Setter TargetName="bd" Property="BorderBrush" Value="#217346"/>
+              <Setter TargetName="bd" Property="BorderThickness" Value="0,0,0,3"/>
+              <Setter Property="TextBlock.Foreground" Value="#217346"/>
+              <Setter Property="TextBlock.FontWeight" Value="SemiBold"/></Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="bd" Property="Background" Value="#F0F6F2"/></Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate></Setter.Value></Setter>
     </Style>
   </Window.Resources>
 
   <DockPanel>
-
     <Border x:Name="TitleBar" DockPanel.Dock="Top" Background="#217346" Padding="16,7">
       <StackPanel Orientation="Horizontal">
         <TextBlock Text="SovereignGrid" Foreground="White" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
-        <TextBlock Text="Local Spreadsheet Workspace" Foreground="#BFE3CD" FontSize="11"
-                   VerticalAlignment="Center" Margin="12,3,0,0"/>
+        <TextBlock Text="Local Spreadsheet Workspace" Foreground="#BFE3CD" FontSize="11" VerticalAlignment="Center" Margin="12,3,0,0"/>
       </StackPanel>
     </Border>
 
     <TabControl DockPanel.Dock="Top" Background="White" BorderThickness="0,0,0,1" BorderBrush="#D8D8D8">
-      <TabControl.Resources>
-        <Style TargetType="TabItem" BasedOn="{StaticResource TabHdr}"/>
-      </TabControl.Resources>
+      <TabControl.Resources><Style TargetType="TabItem" BasedOn="{StaticResource TabHdr}"/></TabControl.Resources>
 
-      <!-- HOME -->
       <TabItem Header="Home">
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"><StackPanel Orientation="Horizontal" Background="White" Margin="4">
-
-          <Border Style="{StaticResource Group}">
-            <DockPanel>
-              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Clipboard"/>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+        <StackPanel Orientation="Horizontal" Background="White" Margin="4">
+          <Border Style="{StaticResource Group}"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Clipboard"/>
+            <StackPanel Orientation="Horizontal">
+              <Button Name="CutBtn" Style="{StaticResource RB}" Content="Cut"/>
+              <Button Name="CopyBtn" Style="{StaticResource RB}" Content="Copy"/>
+              <Button Name="PasteBtn" Style="{StaticResource RB}" Content="Paste"/>
+              <Button Name="FindBtn" Style="{StaticResource RBText}" ToolTip="Find and Replace" Content="Find"/>
+            </StackPanel></DockPanel></Border>
+          <Border Style="{StaticResource Group}"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Undo"/>
+            <StackPanel Orientation="Horizontal">
+              <Button Name="UndoBtn" Style="{StaticResource RB}" Content="Undo"/>
+              <Button Name="RedoBtn" Style="{StaticResource RB}" Content="Redo"/>
+            </StackPanel></DockPanel></Border>
+          <Border Style="{StaticResource Group}"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Font"/>
+            <StackPanel>
+              <StackPanel Orientation="Horizontal" Margin="0,2">
+                <ComboBox Name="FontBox" Width="140" IsEditable="True"/>
+                <ComboBox Name="SizeBox" Width="52" IsEditable="True" Margin="4,0,0,0"/>
+              </StackPanel>
               <StackPanel Orientation="Horizontal">
-                <Button Name="CutBtn"   Style="{StaticResource RB}" ToolTip="Cut"   Content="&#xE8C6;"/>
-                <Button Name="CopyBtn"  Style="{StaticResource RB}" ToolTip="Copy"  Content="&#xE8C8;"/>
-                <Button Name="PasteBtn" Style="{StaticResource RB}" ToolTip="Paste" Content="&#xE77F;"/>
-                <Button Name="FindBtn" Style="{StaticResource RBText}" ToolTip="Find and Replace" Content="Find"/>
+                <ToggleButton Name="BoldBtn" Style="{StaticResource RBToggle}" Content="B" FontWeight="Bold"/>
+                <ToggleButton Name="ItalicBtn" Style="{StaticResource RBToggle}" Content="I" FontStyle="Italic"/>
+                <ToggleButton Name="UnderlineBtn" Style="{StaticResource RBToggle}" Content="U"/>
+                <Button Name="TextColorBtn" Style="{StaticResource RBText}" ToolTip="Text Color" Content="A" MinWidth="34" Height="30"/>
+                <Button Name="FillColorBtn" Style="{StaticResource RBText}" ToolTip="Fill" Content="Fill" MinWidth="40" Height="30"/>
               </StackPanel>
-            </DockPanel>
-          </Border>
-
-          <Border Style="{StaticResource Group}">
-            <DockPanel>
-              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Undo"/>
-              <StackPanel Orientation="Horizontal">
-                <Button Name="UndoBtn" Style="{StaticResource RB}" ToolTip="Undo" Content="&#xE7A7;"/>
-                <Button Name="RedoBtn" Style="{StaticResource RB}" ToolTip="Redo" Content="&#xE7A6;"/>
-              </StackPanel>
-            </DockPanel>
-          </Border>
-
-          <Border Style="{StaticResource Group}">
-            <DockPanel>
-              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Font"/>
-              <StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,2">
-                  <ComboBox Name="FontBox" Width="140" IsEditable="True"/>
-                  <ComboBox Name="SizeBox" Width="52" IsEditable="True" Margin="4,0,0,0"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                  <ToggleButton Name="BoldBtn"      Style="{StaticResource RBToggle}" ToolTip="Bold"      Content="B" FontWeight="Bold"/>
-                  <ToggleButton Name="ItalicBtn"    Style="{StaticResource RBToggle}" ToolTip="Italic"    Content="I" FontStyle="Italic"/>
-                  <ToggleButton Name="UnderlineBtn" Style="{StaticResource RBToggle}" ToolTip="Underline" Content="U"/>
-                  <Button Name="TextColorBtn" Style="{StaticResource RBText}" ToolTip="Text Color" Content="A" MinWidth="34" Height="30"/>
-                  <Button Name="FillColorBtn" Style="{StaticResource RBText}" ToolTip="Fill Color" Content="Fill" MinWidth="40" Height="30"/>
-                </StackPanel>
-              </StackPanel>
-            </DockPanel>
-          </Border>
-
-          <Border Style="{StaticResource Group}">
-            <DockPanel>
-              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Alignment"/>
-              <StackPanel Orientation="Horizontal">
-                <Button Name="AlignLeftBtn"   Style="{StaticResource RB}" ToolTip="Align Left"   Content="&#xE8E4;"/>
-                <Button Name="AlignCenterBtn" Style="{StaticResource RB}" ToolTip="Align Center" Content="&#xE8E3;"/>
-                <Button Name="AlignRightBtn"  Style="{StaticResource RB}" ToolTip="Align Right"  Content="&#xE8E2;"/>
-                <Button Name="MergeBtn"       Style="{StaticResource RBText}" ToolTip="Merge"   Content="Merge"/>
-                <Button Name="UnmergeBtn"     Style="{StaticResource RBText}" ToolTip="Unmerge" Content="Split"/>
-              </StackPanel>
-            </DockPanel>
-          </Border>
-
-          <Border Style="{StaticResource Group}">
-            <DockPanel>
-              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Number"/>
-              <StackPanel Orientation="Horizontal">
-                <Button Name="FmtNumberBtn"   Style="{StaticResource RBText}" ToolTip="Number"   Content="1,000"/>
-                <Button Name="FmtCurrencyBtn" Style="{StaticResource RBText}" ToolTip="Currency" Content="$"/>
-                <Button Name="FmtPercentBtn"  Style="{StaticResource RBText}" ToolTip="Percent"  Content="%"/>
-                <Button Name="FmtDateBtn"     Style="{StaticResource RBText}" ToolTip="Date"     Content="Date"/>
-              </StackPanel>
-            </DockPanel>
-          </Border>
-
-          <Border Style="{StaticResource Group}">
-            <DockPanel>
-              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Styles"/>
-              <StackPanel Orientation="Horizontal">
-                <Button Name="BorderAllBtn"     Style="{StaticResource RBText}" ToolTip="All Borders"     Content="Borders"/>
-                <Button Name="BorderOutlineBtn" Style="{StaticResource RBText}" ToolTip="Outline Borders" Content="Outline"/>
-                <Button Name="BorderNoneBtn"    Style="{StaticResource RBText}" ToolTip="Clear Borders"   Content="Clear"/>
-                <Button Name="TableStyleBtn"    Style="{StaticResource RBText}" ToolTip="Format as Table" Content="Table"/>
-              </StackPanel>
-            </DockPanel>
-          </Border>
-
-          <Border Style="{StaticResource Group}" BorderThickness="0">
-            <DockPanel>
-              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Cells"/>
-              <StackPanel Orientation="Horizontal">
-                <Button Name="InsRowBtn" Style="{StaticResource RBText}" ToolTip="Insert Row"    Content="+Row"/>
-                <Button Name="InsColBtn" Style="{StaticResource RBText}" ToolTip="Insert Column" Content="+Col"/>
-                <Button Name="DelRowBtn" Style="{StaticResource RBText}" ToolTip="Delete Row"    Content="-Row"/>
-                <Button Name="DelColBtn" Style="{StaticResource RBText}" ToolTip="Delete Column" Content="-Col"/>
-                <Button Name="AddSheetBtn"    Style="{StaticResource RBText}" ToolTip="Add Sheet"    Content="+Sheet"/>
-                <Button Name="DelSheetBtn"    Style="{StaticResource RBText}" ToolTip="Delete Sheet" Content="-Sheet"/>
-                <Button Name="RenameSheetBtn" Style="{StaticResource RBText}" ToolTip="Rename Sheet" Content="Rename"/>
-              </StackPanel>
-            </DockPanel>
-          </Border>
-
+            </StackPanel></DockPanel></Border>
+          <Border Style="{StaticResource Group}"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Alignment"/>
+            <StackPanel Orientation="Horizontal">
+              <Button Name="AlignLeftBtn" Style="{StaticResource RB}" Content="Left"/>
+              <Button Name="AlignCenterBtn" Style="{StaticResource RB}" Content="Center"/>
+              <Button Name="AlignRightBtn" Style="{StaticResource RB}" Content="Right"/>
+              <Button Name="MergeBtn" Style="{StaticResource RB}" Content="Merge"/>
+              <Button Name="UnmergeBtn" Style="{StaticResource RB}" Content="Split"/>
+            </StackPanel></DockPanel></Border>
+          <Border Style="{StaticResource Group}"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Number"/>
+            <StackPanel Orientation="Horizontal">
+              <Button Name="FmtNumberBtn" Style="{StaticResource RB}" Content="1,000"/>
+              <Button Name="FmtCurrencyBtn" Style="{StaticResource RB}" Content="$"/>
+              <Button Name="FmtPercentBtn" Style="{StaticResource RB}" Content="%"/>
+              <Button Name="FmtDateBtn" Style="{StaticResource RB}" Content="Date"/>
+            </StackPanel></DockPanel></Border>
+          <Border Style="{StaticResource Group}"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Styles"/>
+            <StackPanel Orientation="Horizontal">
+              <Button Name="BorderAllBtn" Style="{StaticResource RB}" Content="Borders"/>
+              <Button Name="BorderOutlineBtn" Style="{StaticResource RB}" Content="Outline"/>
+              <Button Name="BorderNoneBtn" Style="{StaticResource RB}" Content="Clear"/>
+              <Button Name="TableStyleBtn" Style="{StaticResource RB}" Content="Table"/>
+            </StackPanel></DockPanel></Border>
+          <Border Style="{StaticResource Group}"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Cells"/>
+            <StackPanel Orientation="Horizontal">
+              <Button Name="InsRowBtn" Style="{StaticResource RB}" Content="+Row"/>
+              <Button Name="InsColBtn" Style="{StaticResource RB}" Content="+Col"/>
+              <Button Name="DelRowBtn" Style="{StaticResource RB}" Content="-Row"/>
+              <Button Name="DelColBtn" Style="{StaticResource RB}" Content="-Col"/>
+            </StackPanel></DockPanel></Border>
+          <Border Style="{StaticResource Group}" BorderThickness="0"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Sheets"/>
+            <StackPanel Orientation="Horizontal">
+              <Button Name="AddSheetBtn" Style="{StaticResource RB}" Content="+Sheet"/>
+              <Button Name="DelSheetBtn" Style="{StaticResource RB}" Content="-Sheet"/>
+              <Button Name="RenameSheetBtn" Style="{StaticResource RB}" Content="Rename"/>
+            </StackPanel></DockPanel></Border>
         </StackPanel></ScrollViewer>
       </TabItem>
 
-      <!-- INSERT -->
       <TabItem Header="Insert">
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"><StackPanel Orientation="Horizontal" Background="White" Margin="4">
-          <Border Style="{StaticResource Group}">
-            <DockPanel>
-              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Charts"/>
-              <StackPanel Orientation="Horizontal">
-                <Button Name="ChartColBtn"  Style="{StaticResource RB}" ToolTip="Column Chart" Content="&#xE9D2;"/>
-                <Button Name="ChartLineBtn" Style="{StaticResource RB}" ToolTip="Line Chart"   Content="&#xE9D9;"/>
-                <Button Name="ChartPieBtn"  Style="{StaticResource RB}" ToolTip="Pie Chart"    Content="&#xE9D4;"/>
-              </StackPanel>
-            </DockPanel>
-          </Border>
-          <Border Style="{StaticResource Group}" BorderThickness="0">
-            <DockPanel>
-              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Export"/>
-              <Button Name="ExportPngBtn" Style="{StaticResource RB}" ToolTip="Export Chart to PNG" Content="&#xEB9F;"/>
-                <Button Name="ShapeBtn" Style="{StaticResource RBText}" ToolTip="Insert Shape" Content="Shape"/>
-            </DockPanel>
-          </Border>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+        <StackPanel Orientation="Horizontal" Background="White" Margin="4">
+          <Border Style="{StaticResource Group}"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Charts"/>
+            <StackPanel Orientation="Horizontal">
+              <Button Name="ChartColBtn" Style="{StaticResource RB}" Content="Column"/>
+              <Button Name="ChartLineBtn" Style="{StaticResource RB}" Content="Line"/>
+              <Button Name="ChartPieBtn" Style="{StaticResource RB}" Content="Pie"/>
+            </StackPanel></DockPanel></Border>
+          <Border Style="{StaticResource Group}"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Illustrations"/>
+            <StackPanel Orientation="Horizontal">
+              <Button Name="ShapeBtn" Style="{StaticResource RB}" ToolTip="Rectangle / Ellipse / Line" Content="Shape"/>
+            </StackPanel></DockPanel></Border>
+          <Border Style="{StaticResource Group}" BorderThickness="0"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Export"/>
+            <Button Name="ExportPngBtn" Style="{StaticResource RB}" Content="Chart PNG"/>
+          </DockPanel></Border>
         </StackPanel></ScrollViewer>
       </TabItem>
 
-      <!-- DATA -->
       <TabItem Header="Data">
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"><StackPanel Orientation="Horizontal" Background="White" Margin="4">
-          <Border Style="{StaticResource Group}">
-            <DockPanel>
-              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="External Source"/>
-              <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <ComboBox Name="ConnectorBox" Width="170" VerticalAlignment="Center"/>
-                <Button Name="OpenButton" Style="{StaticResource RB}" ToolTip="Import" Content="&#xE896;" Margin="6,0,0,0"/>
-              </StackPanel>
-            </DockPanel>
-          </Border>
-          <Border Style="{StaticResource Group}" BorderThickness="0">
-            <DockPanel>
-              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Sort &amp; Filter"/>
-              <Button Name="FilterBtn" Style="{StaticResource RB}" ToolTip="AutoFilter" Content="&#xE71C;"/>
-            </DockPanel>
-          </Border>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+        <StackPanel Orientation="Horizontal" Background="White" Margin="4">
+          <Border Style="{StaticResource Group}"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="External Source"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+              <ComboBox Name="ConnectorBox" Width="170" VerticalAlignment="Center"/>
+              <Button Name="OpenButton" Style="{StaticResource RB}" Content="Import" Margin="6,0,0,0"/>
+            </StackPanel></DockPanel></Border>
+          <Border Style="{StaticResource Group}" BorderThickness="0"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Sort &amp; Filter"/>
+            <Button Name="FilterBtn" Style="{StaticResource RB}" Content="AutoFilter"/>
+          </DockPanel></Border>
         </StackPanel></ScrollViewer>
       </TabItem>
 
-      <!-- VIEW -->
       <TabItem Header="View">
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"><StackPanel Orientation="Horizontal" Background="White" Margin="4">
-          <Border Style="{StaticResource Group}">
-            <DockPanel>
-              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Window"/>
-              <StackPanel Orientation="Horizontal">
-                <Button Name="FreezeBtn"   Style="{StaticResource RB}" ToolTip="Freeze Panes"   Content="&#xE718;"/>
-                <Button Name="UnfreezeBtn" Style="{StaticResource RB}" ToolTip="Unfreeze Panes" Content="&#xE77A;"/>
-              </StackPanel>
-            </DockPanel>
-          </Border>
-          <Border Style="{StaticResource Group}" BorderThickness="0">
-            <DockPanel>
-              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Direction"/>
-              <Button Name="RtlButton" Style="{StaticResource RBText}" ToolTip="Toggle RTL / LTR" Content="RTL/LTR"/>
-                <Button Name="FullScreenBtn" Style="{StaticResource RBText}" ToolTip="Toggle Full Screen (F11)" Content="Full Screen"/>
-
-                <ComboBox Name="ThemeBox" Width="90" VerticalAlignment="Center" Margin="6,0,0,0"/>
-            </DockPanel>
-          </Border>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+        <StackPanel Orientation="Horizontal" Background="White" Margin="4">
+          <Border Style="{StaticResource Group}"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Window"/>
+            <StackPanel Orientation="Horizontal">
+              <Button Name="FreezeBtn" Style="{StaticResource RB}" Content="Freeze"/>
+              <Button Name="UnfreezeBtn" Style="{StaticResource RB}" Content="Unfreeze"/>
+              <Button Name="FullScreenBtn" Style="{StaticResource RBText}" ToolTip="F11" Content="Full Screen"/>
+            </StackPanel></DockPanel></Border>
+          <Border Style="{StaticResource Group}" BorderThickness="0"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Appearance"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+              <ComboBox Name="ThemeBox" Width="90" VerticalAlignment="Center"/>
+              <Button Name="RtlButton" Style="{StaticResource RBText}" Content="RTL/LTR" Margin="6,0,0,0"/>
+            </StackPanel></DockPanel></Border>
         </StackPanel></ScrollViewer>
       </TabItem>
 
-      <!-- FILE -->
       <TabItem Header="File">
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"><StackPanel Orientation="Horizontal" Background="White" Margin="4">
-          <Border Style="{StaticResource Group}">
-            <DockPanel>
-              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Workbook"/>
-              <StackPanel Orientation="Horizontal">
-                <Button Name="NewButton"   Style="{StaticResource RB}" ToolTip="New"     Content="&#xE710;"/>
-                <Button Name="OpenFileBtn" Style="{StaticResource RB}" ToolTip="Open"    Content="&#xE8E5;"/>
-                <Button Name="SaveButton"  Style="{StaticResource RB}" ToolTip="Save"    Content="&#xE74E;"/>
-                <Button Name="SaveAsBtn"   Style="{StaticResource RB}" ToolTip="Save As" Content="&#xE792;"/>
-              </StackPanel>
-            </DockPanel>
-          </Border>
-          <Border Style="{StaticResource Group}" BorderThickness="0">
-            <DockPanel>
-              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Native (.sgrid)"/>
-              <StackPanel Orientation="Horizontal">
-                <Button Name="SaveSgBtn" Style="{StaticResource RB}" ToolTip="Save .sgrid" Content="&#xE74E;"/>
-                <Button Name="OpenSgBtn" Style="{StaticResource RB}" ToolTip="Open .sgrid" Content="&#xE8E5;"/>
-              </StackPanel>
-            </DockPanel>
-          </Border>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+        <StackPanel Orientation="Horizontal" Background="White" Margin="4">
+          <Border Style="{StaticResource Group}"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Workbook"/>
+            <StackPanel Orientation="Horizontal">
+              <Button Name="NewButton" Style="{StaticResource RB}" Content="New"/>
+              <Button Name="OpenFileBtn" Style="{StaticResource RB}" Content="Open"/>
+              <Button Name="SaveButton" Style="{StaticResource RB}" Content="Save"/>
+              <Button Name="SaveAsBtn" Style="{StaticResource RB}" Content="Save As"/>
+            </StackPanel></DockPanel></Border>
+          <Border Style="{StaticResource Group}" BorderThickness="0"><DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Native (.sgrid)"/>
+            <StackPanel Orientation="Horizontal">
+              <Button Name="SaveSgBtn" Style="{StaticResource RB}" Content="Save"/>
+              <Button Name="OpenSgBtn" Style="{StaticResource RB}" Content="Open"/>
+            </StackPanel></DockPanel></Border>
         </StackPanel></ScrollViewer>
       </TabItem>
-
     </TabControl>
+
+    <Border DockPanel.Dock="Top" Background="#FAFAFA" BorderBrush="#D8D8D8" BorderThickness="0,0,0,1" Padding="6,3">
+      <StackPanel Orientation="Horizontal">
+        <TextBox Name="NameBox" Width="80" IsReadOnly="True" Background="White" VerticalContentAlignment="Center" Text="A1"/>
+        <TextBlock Text="fx" FontStyle="Italic" Foreground="#217346" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,8,0"/>
+        <TextBox Name="FormulaBox" Width="700" VerticalContentAlignment="Center"/>
+      </StackPanel>
+    </Border>
 
     <Border x:Name="StatusBar" DockPanel.Dock="Bottom" Background="#217346" Padding="12,4">
       <StackPanel Orientation="Horizontal">
         <TextBlock Name="CellRefText" Foreground="White" FontWeight="SemiBold" Margin="0,0,24,0" Text="A1"/>
         <TextBlock Name="StatsText" Foreground="#CDEBD9" Text=""/>
         <TextBlock Text="Zoom" Foreground="White" VerticalAlignment="Center" Margin="30,0,6,0"/>
-        <Slider Name="ZoomSlider" Width="120" Minimum="50" Maximum="200" Value="100"
-                VerticalAlignment="Center" TickFrequency="1" SmallChange="1" LargeChange="10"/>
+        <Slider Name="ZoomSlider" Width="120" Minimum="50" Maximum="200" Value="100" VerticalAlignment="Center" TickFrequency="1" SmallChange="1" LargeChange="10"/>
         <TextBlock Name="ZoomText" Foreground="White" VerticalAlignment="Center" Margin="6,0,0,0" Text="100%"/>
-      </StackPanel>
-    </Border>
-    <Border DockPanel.Dock="Top" Background="#FAFAFA" BorderBrush="#D8D8D8" BorderThickness="0,0,0,1" Padding="6,3">
-      <StackPanel Orientation="Horizontal">
-        <TextBox Name="NameBox" Width="80" IsReadOnly="True" Background="White"
-                 VerticalContentAlignment="Center" Text="A1"/>
-        <TextBlock Text="fx" FontStyle="Italic" Foreground="#217346" FontWeight="Bold"
-                   VerticalAlignment="Center" Margin="10,0,8,0"/>
-        <TextBox Name="FormulaBox" Width="700" VerticalContentAlignment="Center"/>
       </StackPanel>
     </Border>
 
     <Grid Name="RootGrid"/>
   </DockPanel>
 </Window>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
