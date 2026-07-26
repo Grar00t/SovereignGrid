@@ -53,7 +53,7 @@ public partial class MainWindow : Window
 
         ChartColBtn.Click  += (_, _) => InsertChart("column");
         ChartLineBtn.Click += (_, _) => InsertChart("line");
-        ChartPieBtn.Click  += (_, _) => InsertChart("pie");
+
 
         UndoBtn.Click  += (_, _) => _grid.Undo();
         RedoBtn.Click  += (_, _) => _grid.Redo();

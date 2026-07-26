@@ -3,109 +3,307 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="SovereignGrid" Width="1500" Height="920"
-    FlowDirection="LeftToRight" FontFamily="Segoe UI">
+    FlowDirection="LeftToRight" FontFamily="Segoe UI" Background="#F3F3F3">
+
+  <Window.Resources>
+    <!-- Ribbon button -->
+    <Style x:Key="RB" TargetType="Button">
+      <Setter Property="MinWidth" Value="46"/>
+      <Setter Property="Height" Value="46"/>
+      <Setter Property="Margin" Value="1"/>
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="BorderBrush" Value="Transparent"/>
+      <Setter Property="Foreground" Value="#333333"/>
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="b" Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,2"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="b" Property="Background" Value="#E6F2EA"/>
+                <Setter TargetName="b" Property="BorderBrush" Value="#8FC7A6"/>
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="b" Property="Background" Value="#C9E5D5"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="RBToggle" TargetType="ToggleButton">
+      <Setter Property="Width" Value="34"/>
+      <Setter Property="Height" Value="30"/>
+      <Setter Property="Margin" Value="1"/>
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="BorderBrush" Value="#DDDDDD"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="FontSize" Value="13"/>
+    </Style>
+
+    <Style x:Key="GroupLabel" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="10"/>
+      <Setter Property="Foreground" Value="#888888"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <Setter Property="Margin" Value="0,2,0,0"/>
+    </Style>
+
+    <!-- Ribbon group container: content on top, label at bottom, separator on right -->
+    <Style x:Key="Group" TargetType="Border">
+      <Setter Property="BorderBrush" Value="#E0E0E0"/>
+      <Setter Property="BorderThickness" Value="0,0,1,0"/>
+      <Setter Property="Padding" Value="6,4"/>
+      <Setter Property="Margin" Value="2,0"/>
+    </Style>
+
+    <Style x:Key="TabHdr" TargetType="TabItem">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="TabItem">
+            <Border x:Name="bd" Padding="16,7" Margin="1,0" Background="Transparent">
+              <ContentPresenter ContentSource="Header"
+                                TextBlock.FontSize="13" TextBlock.Foreground="#444444"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsSelected" Value="True">
+                <Setter TargetName="bd" Property="Background" Value="White"/>
+                <Setter TargetName="bd" Property="BorderBrush" Value="#217346"/>
+                <Setter TargetName="bd" Property="BorderThickness" Value="0,0,0,3"/>
+                <Setter Property="TextBlock.Foreground" Value="#217346"/>
+                <Setter Property="TextBlock.FontWeight" Value="SemiBold"/>
+              </Trigger>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="bd" Property="Background" Value="#F0F6F2"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </Window.Resources>
+
   <DockPanel>
 
     <!-- Title bar -->
-    <Border DockPanel.Dock="Top" Background="#1E3A5F" Padding="14,8">
+    <Border DockPanel.Dock="Top" Background="#217346" Padding="16,7">
       <StackPanel Orientation="Horizontal">
-        <TextBlock Text="SovereignGrid" Foreground="White" FontSize="17" FontWeight="Bold"
-                   VerticalAlignment="Center" Margin="0,0,24,0"/>
-        <TextBlock Text="Source:" Foreground="#B9C6D8" VerticalAlignment="Center" Margin="0,0,6,0"/>
-        <ComboBox Name="ConnectorBox" Width="170" VerticalAlignment="Center"/>
-        <Button Name="OpenButton" Content="Import" Margin="8,0,0,0" Padding="12,4"/>
+        <TextBlock Text="SovereignGrid" Foreground="White" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
+        <TextBlock Text="Local Spreadsheet Workspace" Foreground="#BFE3CD" FontSize="11"
+                   VerticalAlignment="Center" Margin="12,3,0,0"/>
       </StackPanel>
     </Border>
 
     <!-- Ribbon -->
-    <ToolBarTray DockPanel.Dock="Top" Background="#F3F5F8" IsLocked="True">
+    <TabControl DockPanel.Dock="Top" Background="White" BorderThickness="0,0,0,1" BorderBrush="#D8D8D8">
+      <TabControl.Resources>
+        <Style TargetType="TabItem" BasedOn="{StaticResource TabHdr}"/>
+      </TabControl.Resources>
 
-      <ToolBar Header="File" Band="1">
-        <Button Name="NewButton"  Content="New"     Padding="8,3"/>
-        <Button Name="OpenFileBtn" Content="Open"    Padding="8,3"/>
-        <Button Name="SaveButton" Content="Save"    Padding="8,3"/>
-        <Button Name="SaveAsBtn"  Content="Save As" Padding="8,3"/>
-      </ToolBar>
+      <!-- HOME -->
+      <TabItem Header="Home">
+        <StackPanel Orientation="Horizontal" Background="White" Margin="4">
 
-      <ToolBar Band="1">
-        <Button Name="UndoBtn" Content="↶ Undo" Padding="6,3"/>
-        <Button Name="RedoBtn" Content="↷ Redo" Padding="6,3"/>
-        <Separator/>
-        <Button Name="CutBtn"   Content="Cut"   Padding="6,3"/>
-        <Button Name="CopyBtn"  Content="Copy"  Padding="6,3"/>
-        <Button Name="PasteBtn" Content="Paste" Padding="6,3"/>
-      </ToolBar>
+          <Border Style="{StaticResource Group}">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Clipboard"/>
+              <StackPanel Orientation="Horizontal">
+                <Button Name="CutBtn"   Style="{StaticResource RB}" Content="Cut"/>
+                <Button Name="CopyBtn"  Style="{StaticResource RB}" Content="Copy"/>
+                <Button Name="PasteBtn" Style="{StaticResource RB}" Content="Paste"/>
+              </StackPanel>
+            </DockPanel>
+          </Border>
 
-      <ToolBar Band="2">
-        <ComboBox Name="FontBox"  Width="150" IsEditable="True"/>
-        <ComboBox Name="SizeBox"  Width="55"  IsEditable="True"/>
-        <Separator/>
-        <ToggleButton Name="BoldBtn"      Content="B"  FontWeight="Bold"   Width="30"/>
-        <ToggleButton Name="ItalicBtn"    Content="I"  FontStyle="Italic"  Width="30"/>
-        <ToggleButton Name="UnderlineBtn" Content="U"  Width="30"/>
-        <Separator/>
-        <Button Name="TextColorBtn" Content="A ▾" Padding="6,3"/>
-        <Button Name="FillColorBtn" Content="🖌 ▾" Padding="6,3"/>
-      </ToolBar>
+          <Border Style="{StaticResource Group}">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Undo"/>
+              <StackPanel Orientation="Horizontal">
+                <Button Name="UndoBtn" Style="{StaticResource RB}" Content="Undo"/>
+                <Button Name="RedoBtn" Style="{StaticResource RB}" Content="Redo"/>
+              </StackPanel>
+            </DockPanel>
+          </Border>
 
-      <ToolBar Band="2">
-        <Button Name="AlignLeftBtn"   Content="⟵" Width="32"/>
-        <Button Name="AlignCenterBtn" Content="≡" Width="32"/>
-        <Button Name="AlignRightBtn"  Content="⟶" Width="32"/>
-        <Separator/>
-        <Button Name="MergeBtn"   Content="Merge"   Padding="6,3"/>
-        <Button Name="UnmergeBtn" Content="Unmerge" Padding="6,3"/>
-      </ToolBar>
+          <Border Style="{StaticResource Group}">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Font"/>
+              <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,2">
+                  <ComboBox Name="FontBox" Width="140" IsEditable="True"/>
+                  <ComboBox Name="SizeBox" Width="52" IsEditable="True" Margin="4,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                  <ToggleButton Name="BoldBtn"      Style="{StaticResource RBToggle}" Content="B" FontWeight="Bold"/>
+                  <ToggleButton Name="ItalicBtn"    Style="{StaticResource RBToggle}" Content="I" FontStyle="Italic"/>
+                  <ToggleButton Name="UnderlineBtn" Style="{StaticResource RBToggle}" Content="U"/>
+                  <Button Name="TextColorBtn" Style="{StaticResource RB}" Content="A" MinWidth="34" Height="30"/>
+                  <Button Name="FillColorBtn" Style="{StaticResource RB}" Content="Fill" MinWidth="34" Height="30"/>
+                </StackPanel>
+              </StackPanel>
+            </DockPanel>
+          </Border>
 
-      <ToolBar Band="3">
-        <Button Name="FmtNumberBtn"   Content="1,000.00" Padding="6,3"/>
-        <Button Name="FmtCurrencyBtn" Content="$" Padding="10,3"/>
-        <Button Name="FmtPercentBtn"  Content="%"        Padding="8,3"/>
-        <Button Name="FmtDateBtn"     Content="Date"     Padding="6,3"/>
-      </ToolBar>
+          <Border Style="{StaticResource Group}">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Alignment"/>
+              <StackPanel Orientation="Horizontal">
+                <Button Name="AlignLeftBtn"   Style="{StaticResource RB}" Content="Left"/>
+                <Button Name="AlignCenterBtn" Style="{StaticResource RB}" Content="Center"/>
+                <Button Name="AlignRightBtn"  Style="{StaticResource RB}" Content="Right"/>
+                <Button Name="MergeBtn"       Style="{StaticResource RB}" Content="Merge"/>
+                <Button Name="UnmergeBtn"     Style="{StaticResource RB}" Content="Unmerge"/>
+              </StackPanel>
+            </DockPanel>
+          </Border>
 
-      <ToolBar Band="3">
-        <Button Name="BorderAllBtn"     Content="Borders"  Padding="6,3"/>
-        <Button Name="BorderOutlineBtn" Content="Outline"  Padding="6,3"/>
-        <Button Name="BorderNoneBtn"    Content="No Border" Padding="6,3"/>
-        <Separator/>
-        <Button Name="TableStyleBtn" Content="Format as Table" Padding="8,3"/>
-      </ToolBar>
+          <Border Style="{StaticResource Group}">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Number"/>
+              <StackPanel Orientation="Horizontal">
+                <Button Name="FmtNumberBtn"   Style="{StaticResource RB}" Content="1,000"/>
+                <Button Name="FmtCurrencyBtn" Style="{StaticResource RB}" Content="$"/>
+                <Button Name="FmtPercentBtn"  Style="{StaticResource RB}" Content="%"/>
+                <Button Name="FmtDateBtn"     Style="{StaticResource RB}" Content="Date"/>
+              </StackPanel>
+            </DockPanel>
+          </Border>
 
-      <ToolBar Band="3">
-        <Button Name="InsRowBtn" Content="+Row"  Padding="6,3"/>
-        <Button Name="InsColBtn" Content="+Col"  Padding="6,3"/>
-        <Button Name="DelRowBtn" Content="-Row"  Padding="6,3"/>
-        <Button Name="DelColBtn" Content="-Col"  Padding="6,3"/>
-        <Separator/>
-        <Button Name="RtlButton" Content="RTL/LTR" Padding="6,3"/>
-      </ToolBar>
-      <ToolBar Band="1">
-        <Button Name="SaveSgBtn" Content=".sgrid Save" Padding="8,3"/>
-        <Button Name="OpenSgBtn" Content=".sgrid Open" Padding="8,3"/>
-        <Separator/>
-        <Button Name="ChartColBtn"  Content="Column Chart" Padding="8,3"/>
-        <Button Name="ChartLineBtn" Content="Line Chart"   Padding="8,3"/>
-        <Button Name="ChartPieBtn"  Content="Pie Chart"    Padding="8,3"/>
-      </ToolBar>
-      <ToolBar Band="1">
-        <Button Name="FilterBtn"   Content="AutoFilter"    Padding="8,3"/>
-        <Button Name="FreezeBtn"   Content="Freeze"        Padding="8,3"/>
-        <Button Name="UnfreezeBtn" Content="Unfreeze"      Padding="8,3"/>
-        <Separator/>
-        <Button Name="ExportPngBtn" Content="Chart to PNG" Padding="8,3"/>
-      </ToolBar>
+          <Border Style="{StaticResource Group}">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Styles"/>
+              <StackPanel Orientation="Horizontal">
+                <Button Name="BorderAllBtn"     Style="{StaticResource RB}" Content="Borders"/>
+                <Button Name="BorderOutlineBtn" Style="{StaticResource RB}" Content="Outline"/>
+                <Button Name="BorderNoneBtn"    Style="{StaticResource RB}" Content="Clear"/>
+                <Button Name="TableStyleBtn"    Style="{StaticResource RB}" Content="Table"/>
+              </StackPanel>
+            </DockPanel>
+          </Border>
 
-    </ToolBarTray>
+          <Border Style="{StaticResource Group}" BorderThickness="0">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Cells"/>
+              <StackPanel Orientation="Horizontal">
+                <Button Name="InsRowBtn" Style="{StaticResource RB}" Content="+Row"/>
+                <Button Name="InsColBtn" Style="{StaticResource RB}" Content="+Col"/>
+                <Button Name="DelRowBtn" Style="{StaticResource RB}" Content="-Row"/>
+                <Button Name="DelColBtn" Style="{StaticResource RB}" Content="-Col"/>
+              </StackPanel>
+            </DockPanel>
+          </Border>
 
-    <Border DockPanel.Dock="Bottom" Background="#1E3A5F" Padding="10,3">
+        </StackPanel>
+      </TabItem>
+
+      <!-- INSERT -->
+      <TabItem Header="Insert">
+        <StackPanel Orientation="Horizontal" Background="White" Margin="4">
+          <Border Style="{StaticResource Group}">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Charts"/>
+              <StackPanel Orientation="Horizontal">
+                <Button Name="ChartColBtn"  Style="{StaticResource RB}" Content="Column"/>
+                <Button Name="ChartLineBtn" Style="{StaticResource RB}" Content="Line"/>
+                <Button Name="ChartPieBtn"  Style="{StaticResource RB}" Content="Pie"/>
+              </StackPanel>
+            </DockPanel>
+          </Border>
+          <Border Style="{StaticResource Group}" BorderThickness="0">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Export"/>
+              <Button Name="ExportPngBtn" Style="{StaticResource RB}" Content="Chart PNG"/>
+            </DockPanel>
+          </Border>
+        </StackPanel>
+      </TabItem>
+
+      <!-- DATA -->
+      <TabItem Header="Data">
+        <StackPanel Orientation="Horizontal" Background="White" Margin="4">
+          <Border Style="{StaticResource Group}">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="External Source"/>
+              <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <ComboBox Name="ConnectorBox" Width="170" VerticalAlignment="Center"/>
+                <Button Name="OpenButton" Style="{StaticResource RB}" Content="Import" Margin="6,0,0,0"/>
+              </StackPanel>
+            </DockPanel>
+          </Border>
+          <Border Style="{StaticResource Group}" BorderThickness="0">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Sort &amp; Filter"/>
+              <Button Name="FilterBtn" Style="{StaticResource RB}" Content="AutoFilter"/>
+            </DockPanel>
+          </Border>
+        </StackPanel>
+      </TabItem>
+
+      <!-- VIEW -->
+      <TabItem Header="View">
+        <StackPanel Orientation="Horizontal" Background="White" Margin="4">
+          <Border Style="{StaticResource Group}">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Window"/>
+              <StackPanel Orientation="Horizontal">
+                <Button Name="FreezeBtn"   Style="{StaticResource RB}" Content="Freeze"/>
+                <Button Name="UnfreezeBtn" Style="{StaticResource RB}" Content="Unfreeze"/>
+              </StackPanel>
+            </DockPanel>
+          </Border>
+          <Border Style="{StaticResource Group}" BorderThickness="0">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Direction"/>
+              <Button Name="RtlButton" Style="{StaticResource RB}" Content="RTL/LTR"/>
+            </DockPanel>
+          </Border>
+        </StackPanel>
+      </TabItem>
+
+      <!-- FILE -->
+      <TabItem Header="File">
+        <StackPanel Orientation="Horizontal" Background="White" Margin="4">
+          <Border Style="{StaticResource Group}">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Workbook"/>
+              <StackPanel Orientation="Horizontal">
+                <Button Name="NewButton"  Style="{StaticResource RB}" Content="New"/>
+                <Button Name="OpenFileBtn" Style="{StaticResource RB}" Content="Open"/>
+                <Button Name="SaveButton" Style="{StaticResource RB}" Content="Save"/>
+                <Button Name="SaveAsBtn"  Style="{StaticResource RB}" Content="Save As"/>
+              </StackPanel>
+            </DockPanel>
+          </Border>
+          <Border Style="{StaticResource Group}" BorderThickness="0">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Native (.sgrid)"/>
+              <StackPanel Orientation="Horizontal">
+                <Button Name="SaveSgBtn" Style="{StaticResource RB}" Content="Save"/>
+                <Button Name="OpenSgBtn" Style="{StaticResource RB}" Content="Open"/>
+              </StackPanel>
+            </DockPanel>
+          </Border>
+        </StackPanel>
+      </TabItem>
+
+    </TabControl>
+
+    <!-- Status bar -->
+    <Border DockPanel.Dock="Bottom" Background="#217346" Padding="12,4">
       <StackPanel Orientation="Horizontal">
-        <TextBlock Name="CellRefText"  Foreground="White" Margin="0,0,20,0" Text="A1"/>
-        <TextBlock Name="StatsText"    Foreground="#B9C6D8" Text=""/>
+        <TextBlock Name="CellRefText" Foreground="White" FontWeight="SemiBold" Margin="0,0,24,0" Text="A1"/>
+        <TextBlock Name="StatsText"   Foreground="#CDEBD9" Text=""/>
       </StackPanel>
     </Border>
+
     <Grid Name="RootGrid"/>
   </DockPanel>
 </Window>
-
-
