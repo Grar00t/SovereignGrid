@@ -4,16 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="SovereignGrid"
     Width="1400"
-    Height="900">
+    Height="900"
+    FlowDirection="LeftToRight">
 
-    <Grid>
-
-        <DataGrid
-            AutoGenerateColumns="True"
-            ItemsSource="{Binding Rows}"
-            CanUserAddRows="False"
-            CanUserDeleteRows="False"/>
-
-    </Grid>
+    <DockPanel>
+        <ToolBar DockPanel.Dock="Top">
+            <Button Name="OpenButton"   Content="Open .xlsx"  Margin="4"/>
+            <Button Name="SaveButton"   Content="Save .xlsx"  Margin="4"/>
+            <Separator/>
+            <Button Name="RtlButton"    Content="RTL / LTR"   Margin="4"/>
+        </ToolBar>
+        <Grid Name="RootGrid"/>
+    </DockPanel>
 
 </Window>
