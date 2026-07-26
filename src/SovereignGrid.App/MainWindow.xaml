@@ -2,7 +2,7 @@
     x:Class="SovereignGrid.App.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="SovereignGrid" Width="1500" Height="920"
+    Title="SovereignGrid" Width="1500" Height="920" MinWidth="900" MinHeight="600" WindowState="Maximized"
     FlowDirection="LeftToRight" FontFamily="Segoe UI" Background="#F3F3F3">
 
   <Window.Resources>
@@ -114,7 +114,7 @@
 
       <!-- HOME -->
       <TabItem Header="Home">
-        <StackPanel Orientation="Horizontal" Background="White" Margin="4">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"><StackPanel Orientation="Horizontal" Background="White" Margin="4">
 
           <Border Style="{StaticResource Group}">
             <DockPanel>
@@ -209,12 +209,12 @@
             </DockPanel>
           </Border>
 
-        </StackPanel>
+        </StackPanel></ScrollViewer>
       </TabItem>
 
       <!-- INSERT -->
       <TabItem Header="Insert">
-        <StackPanel Orientation="Horizontal" Background="White" Margin="4">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"><StackPanel Orientation="Horizontal" Background="White" Margin="4">
           <Border Style="{StaticResource Group}">
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Charts"/>
@@ -231,12 +231,12 @@
               <Button Name="ExportPngBtn" Style="{StaticResource RB}" ToolTip="Export Chart to PNG" Content="&#xEB9F;"/>
             </DockPanel>
           </Border>
-        </StackPanel>
+        </StackPanel></ScrollViewer>
       </TabItem>
 
       <!-- DATA -->
       <TabItem Header="Data">
-        <StackPanel Orientation="Horizontal" Background="White" Margin="4">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"><StackPanel Orientation="Horizontal" Background="White" Margin="4">
           <Border Style="{StaticResource Group}">
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="External Source"/>
@@ -252,12 +252,12 @@
               <Button Name="FilterBtn" Style="{StaticResource RB}" ToolTip="AutoFilter" Content="&#xE71C;"/>
             </DockPanel>
           </Border>
-        </StackPanel>
+        </StackPanel></ScrollViewer>
       </TabItem>
 
       <!-- VIEW -->
       <TabItem Header="View">
-        <StackPanel Orientation="Horizontal" Background="White" Margin="4">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"><StackPanel Orientation="Horizontal" Background="White" Margin="4">
           <Border Style="{StaticResource Group}">
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Window"/>
@@ -273,12 +273,12 @@
               <Button Name="RtlButton" Style="{StaticResource RBText}" ToolTip="Toggle RTL / LTR" Content="RTL/LTR"/>
             </DockPanel>
           </Border>
-        </StackPanel>
+        </StackPanel></ScrollViewer>
       </TabItem>
 
       <!-- FILE -->
       <TabItem Header="File">
-        <StackPanel Orientation="Horizontal" Background="White" Margin="4">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"><StackPanel Orientation="Horizontal" Background="White" Margin="4">
           <Border Style="{StaticResource Group}">
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Workbook"/>
@@ -299,7 +299,7 @@
               </StackPanel>
             </DockPanel>
           </Border>
-        </StackPanel>
+        </StackPanel></ScrollViewer>
       </TabItem>
 
     </TabControl>
@@ -314,4 +314,7 @@
     <Grid Name="RootGrid"/>
   </DockPanel>
 </Window>
+
+
+
 
