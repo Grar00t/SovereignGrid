@@ -6,7 +6,7 @@
     FlowDirection="LeftToRight" FontFamily="Segoe UI" Background="#F3F3F3">
 
   <Window.Resources>
-    <!-- Ribbon button -->
+    <!-- Icon button (Fluent glyph) -->
     <Style x:Key="RB" TargetType="Button">
       <Setter Property="MinWidth" Value="46"/>
       <Setter Property="Height" Value="46"/>
@@ -15,7 +15,8 @@
       <Setter Property="BorderThickness" Value="1"/>
       <Setter Property="BorderBrush" Value="Transparent"/>
       <Setter Property="Foreground" Value="#333333"/>
-      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets"/>
+      <Setter Property="FontSize" Value="18"/>
       <Setter Property="Cursor" Value="Hand"/>
       <Setter Property="Template">
         <Setter.Value>
@@ -39,6 +40,12 @@
       </Setter>
     </Style>
 
+    <!-- Text button (same look, normal font) -->
+    <Style x:Key="RBText" TargetType="Button" BasedOn="{StaticResource RB}">
+      <Setter Property="FontFamily" Value="Segoe UI"/>
+      <Setter Property="FontSize" Value="12"/>
+    </Style>
+
     <Style x:Key="RBToggle" TargetType="ToggleButton">
       <Setter Property="Width" Value="34"/>
       <Setter Property="Height" Value="30"/>
@@ -57,7 +64,6 @@
       <Setter Property="Margin" Value="0,2,0,0"/>
     </Style>
 
-    <!-- Ribbon group container: content on top, label at bottom, separator on right -->
     <Style x:Key="Group" TargetType="Border">
       <Setter Property="BorderBrush" Value="#E0E0E0"/>
       <Setter Property="BorderThickness" Value="0,0,1,0"/>
@@ -93,7 +99,6 @@
 
   <DockPanel>
 
-    <!-- Title bar -->
     <Border DockPanel.Dock="Top" Background="#217346" Padding="16,7">
       <StackPanel Orientation="Horizontal">
         <TextBlock Text="SovereignGrid" Foreground="White" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
@@ -102,7 +107,6 @@
       </StackPanel>
     </Border>
 
-    <!-- Ribbon -->
     <TabControl DockPanel.Dock="Top" Background="White" BorderThickness="0,0,0,1" BorderBrush="#D8D8D8">
       <TabControl.Resources>
         <Style TargetType="TabItem" BasedOn="{StaticResource TabHdr}"/>
@@ -116,9 +120,9 @@
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Clipboard"/>
               <StackPanel Orientation="Horizontal">
-                <Button Name="CutBtn"   Style="{StaticResource RB}" Content="Cut"/>
-                <Button Name="CopyBtn"  Style="{StaticResource RB}" Content="Copy"/>
-                <Button Name="PasteBtn" Style="{StaticResource RB}" Content="Paste"/>
+                <Button Name="CutBtn"   Style="{StaticResource RB}" ToolTip="Cut"   Content="&#xE8C6;"/>
+                <Button Name="CopyBtn"  Style="{StaticResource RB}" ToolTip="Copy"  Content="&#xE8C8;"/>
+                <Button Name="PasteBtn" Style="{StaticResource RB}" ToolTip="Paste" Content="&#xE77F;"/>
               </StackPanel>
             </DockPanel>
           </Border>
@@ -127,8 +131,8 @@
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Undo"/>
               <StackPanel Orientation="Horizontal">
-                <Button Name="UndoBtn" Style="{StaticResource RB}" Content="Undo"/>
-                <Button Name="RedoBtn" Style="{StaticResource RB}" Content="Redo"/>
+                <Button Name="UndoBtn" Style="{StaticResource RB}" ToolTip="Undo" Content="&#xE7A7;"/>
+                <Button Name="RedoBtn" Style="{StaticResource RB}" ToolTip="Redo" Content="&#xE7A6;"/>
               </StackPanel>
             </DockPanel>
           </Border>
@@ -142,11 +146,11 @@
                   <ComboBox Name="SizeBox" Width="52" IsEditable="True" Margin="4,0,0,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                  <ToggleButton Name="BoldBtn"      Style="{StaticResource RBToggle}" Content="B" FontWeight="Bold"/>
-                  <ToggleButton Name="ItalicBtn"    Style="{StaticResource RBToggle}" Content="I" FontStyle="Italic"/>
-                  <ToggleButton Name="UnderlineBtn" Style="{StaticResource RBToggle}" Content="U"/>
-                  <Button Name="TextColorBtn" Style="{StaticResource RB}" Content="A" MinWidth="34" Height="30"/>
-                  <Button Name="FillColorBtn" Style="{StaticResource RB}" Content="Fill" MinWidth="34" Height="30"/>
+                  <ToggleButton Name="BoldBtn"      Style="{StaticResource RBToggle}" ToolTip="Bold"      Content="B" FontWeight="Bold"/>
+                  <ToggleButton Name="ItalicBtn"    Style="{StaticResource RBToggle}" ToolTip="Italic"    Content="I" FontStyle="Italic"/>
+                  <ToggleButton Name="UnderlineBtn" Style="{StaticResource RBToggle}" ToolTip="Underline" Content="U"/>
+                  <Button Name="TextColorBtn" Style="{StaticResource RBText}" ToolTip="Text Color" Content="A" MinWidth="34" Height="30"/>
+                  <Button Name="FillColorBtn" Style="{StaticResource RBText}" ToolTip="Fill Color" Content="Fill" MinWidth="40" Height="30"/>
                 </StackPanel>
               </StackPanel>
             </DockPanel>
@@ -156,11 +160,11 @@
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Alignment"/>
               <StackPanel Orientation="Horizontal">
-                <Button Name="AlignLeftBtn"   Style="{StaticResource RB}" Content="Left"/>
-                <Button Name="AlignCenterBtn" Style="{StaticResource RB}" Content="Center"/>
-                <Button Name="AlignRightBtn"  Style="{StaticResource RB}" Content="Right"/>
-                <Button Name="MergeBtn"       Style="{StaticResource RB}" Content="Merge"/>
-                <Button Name="UnmergeBtn"     Style="{StaticResource RB}" Content="Unmerge"/>
+                <Button Name="AlignLeftBtn"   Style="{StaticResource RB}" ToolTip="Align Left"   Content="&#xE8E4;"/>
+                <Button Name="AlignCenterBtn" Style="{StaticResource RB}" ToolTip="Align Center" Content="&#xE8E3;"/>
+                <Button Name="AlignRightBtn"  Style="{StaticResource RB}" ToolTip="Align Right"  Content="&#xE8E2;"/>
+                <Button Name="MergeBtn"       Style="{StaticResource RBText}" ToolTip="Merge"   Content="Merge"/>
+                <Button Name="UnmergeBtn"     Style="{StaticResource RBText}" ToolTip="Unmerge" Content="Split"/>
               </StackPanel>
             </DockPanel>
           </Border>
@@ -169,10 +173,10 @@
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Number"/>
               <StackPanel Orientation="Horizontal">
-                <Button Name="FmtNumberBtn"   Style="{StaticResource RB}" Content="1,000"/>
-                <Button Name="FmtCurrencyBtn" Style="{StaticResource RB}" Content="$"/>
-                <Button Name="FmtPercentBtn"  Style="{StaticResource RB}" Content="%"/>
-                <Button Name="FmtDateBtn"     Style="{StaticResource RB}" Content="Date"/>
+                <Button Name="FmtNumberBtn"   Style="{StaticResource RBText}" ToolTip="Number"   Content="1,000"/>
+                <Button Name="FmtCurrencyBtn" Style="{StaticResource RBText}" ToolTip="Currency" Content="$"/>
+                <Button Name="FmtPercentBtn"  Style="{StaticResource RBText}" ToolTip="Percent"  Content="%"/>
+                <Button Name="FmtDateBtn"     Style="{StaticResource RBText}" ToolTip="Date"     Content="Date"/>
               </StackPanel>
             </DockPanel>
           </Border>
@@ -181,10 +185,10 @@
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Styles"/>
               <StackPanel Orientation="Horizontal">
-                <Button Name="BorderAllBtn"     Style="{StaticResource RB}" Content="Borders"/>
-                <Button Name="BorderOutlineBtn" Style="{StaticResource RB}" Content="Outline"/>
-                <Button Name="BorderNoneBtn"    Style="{StaticResource RB}" Content="Clear"/>
-                <Button Name="TableStyleBtn"    Style="{StaticResource RB}" Content="Table"/>
+                <Button Name="BorderAllBtn"     Style="{StaticResource RBText}" ToolTip="All Borders"     Content="Borders"/>
+                <Button Name="BorderOutlineBtn" Style="{StaticResource RBText}" ToolTip="Outline Borders" Content="Outline"/>
+                <Button Name="BorderNoneBtn"    Style="{StaticResource RBText}" ToolTip="Clear Borders"   Content="Clear"/>
+                <Button Name="TableStyleBtn"    Style="{StaticResource RBText}" ToolTip="Format as Table" Content="Table"/>
               </StackPanel>
             </DockPanel>
           </Border>
@@ -193,10 +197,10 @@
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Cells"/>
               <StackPanel Orientation="Horizontal">
-                <Button Name="InsRowBtn" Style="{StaticResource RB}" Content="+Row"/>
-                <Button Name="InsColBtn" Style="{StaticResource RB}" Content="+Col"/>
-                <Button Name="DelRowBtn" Style="{StaticResource RB}" Content="-Row"/>
-                <Button Name="DelColBtn" Style="{StaticResource RB}" Content="-Col"/>
+                <Button Name="InsRowBtn" Style="{StaticResource RBText}" ToolTip="Insert Row"    Content="+Row"/>
+                <Button Name="InsColBtn" Style="{StaticResource RBText}" ToolTip="Insert Column" Content="+Col"/>
+                <Button Name="DelRowBtn" Style="{StaticResource RBText}" ToolTip="Delete Row"    Content="-Row"/>
+                <Button Name="DelColBtn" Style="{StaticResource RBText}" ToolTip="Delete Column" Content="-Col"/>
               </StackPanel>
             </DockPanel>
           </Border>
@@ -211,16 +215,16 @@
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Charts"/>
               <StackPanel Orientation="Horizontal">
-                <Button Name="ChartColBtn"  Style="{StaticResource RB}" Content="Column"/>
-                <Button Name="ChartLineBtn" Style="{StaticResource RB}" Content="Line"/>
-                <Button Name="ChartPieBtn"  Style="{StaticResource RB}" Content="Pie"/>
+                <Button Name="ChartColBtn"  Style="{StaticResource RB}" ToolTip="Column Chart" Content="&#xE9D2;"/>
+                <Button Name="ChartLineBtn" Style="{StaticResource RB}" ToolTip="Line Chart"   Content="&#xE9D9;"/>
+                <Button Name="ChartPieBtn"  Style="{StaticResource RB}" ToolTip="Pie Chart"    Content="&#xE9D4;"/>
               </StackPanel>
             </DockPanel>
           </Border>
           <Border Style="{StaticResource Group}" BorderThickness="0">
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Export"/>
-              <Button Name="ExportPngBtn" Style="{StaticResource RB}" Content="Chart PNG"/>
+              <Button Name="ExportPngBtn" Style="{StaticResource RB}" ToolTip="Export Chart to PNG" Content="&#xEB9F;"/>
             </DockPanel>
           </Border>
         </StackPanel>
@@ -234,14 +238,14 @@
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="External Source"/>
               <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <ComboBox Name="ConnectorBox" Width="170" VerticalAlignment="Center"/>
-                <Button Name="OpenButton" Style="{StaticResource RB}" Content="Import" Margin="6,0,0,0"/>
+                <Button Name="OpenButton" Style="{StaticResource RB}" ToolTip="Import" Content="&#xE896;" Margin="6,0,0,0"/>
               </StackPanel>
             </DockPanel>
           </Border>
           <Border Style="{StaticResource Group}" BorderThickness="0">
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Sort &amp; Filter"/>
-              <Button Name="FilterBtn" Style="{StaticResource RB}" Content="AutoFilter"/>
+              <Button Name="FilterBtn" Style="{StaticResource RB}" ToolTip="AutoFilter" Content="&#xE71C;"/>
             </DockPanel>
           </Border>
         </StackPanel>
@@ -254,15 +258,15 @@
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Window"/>
               <StackPanel Orientation="Horizontal">
-                <Button Name="FreezeBtn"   Style="{StaticResource RB}" Content="Freeze"/>
-                <Button Name="UnfreezeBtn" Style="{StaticResource RB}" Content="Unfreeze"/>
+                <Button Name="FreezeBtn"   Style="{StaticResource RB}" ToolTip="Freeze Panes"   Content="&#xE718;"/>
+                <Button Name="UnfreezeBtn" Style="{StaticResource RB}" ToolTip="Unfreeze Panes" Content="&#xE77A;"/>
               </StackPanel>
             </DockPanel>
           </Border>
           <Border Style="{StaticResource Group}" BorderThickness="0">
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Direction"/>
-              <Button Name="RtlButton" Style="{StaticResource RB}" Content="RTL/LTR"/>
+              <Button Name="RtlButton" Style="{StaticResource RBText}" ToolTip="Toggle RTL / LTR" Content="RTL/LTR"/>
             </DockPanel>
           </Border>
         </StackPanel>
@@ -275,10 +279,10 @@
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Workbook"/>
               <StackPanel Orientation="Horizontal">
-                <Button Name="NewButton"  Style="{StaticResource RB}" Content="New"/>
-                <Button Name="OpenFileBtn" Style="{StaticResource RB}" Content="Open"/>
-                <Button Name="SaveButton" Style="{StaticResource RB}" Content="Save"/>
-                <Button Name="SaveAsBtn"  Style="{StaticResource RB}" Content="Save As"/>
+                <Button Name="NewButton"   Style="{StaticResource RB}" ToolTip="New"     Content="&#xE710;"/>
+                <Button Name="OpenFileBtn" Style="{StaticResource RB}" ToolTip="Open"    Content="&#xE8E5;"/>
+                <Button Name="SaveButton"  Style="{StaticResource RB}" ToolTip="Save"    Content="&#xE74E;"/>
+                <Button Name="SaveAsBtn"   Style="{StaticResource RB}" ToolTip="Save As" Content="&#xE792;"/>
               </StackPanel>
             </DockPanel>
           </Border>
@@ -286,8 +290,8 @@
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Native (.sgrid)"/>
               <StackPanel Orientation="Horizontal">
-                <Button Name="SaveSgBtn" Style="{StaticResource RB}" Content="Save"/>
-                <Button Name="OpenSgBtn" Style="{StaticResource RB}" Content="Open"/>
+                <Button Name="SaveSgBtn" Style="{StaticResource RB}" ToolTip="Save .sgrid" Content="&#xE74E;"/>
+                <Button Name="OpenSgBtn" Style="{StaticResource RB}" ToolTip="Open .sgrid" Content="&#xE8E5;"/>
               </StackPanel>
             </DockPanel>
           </Border>
@@ -296,7 +300,6 @@
 
     </TabControl>
 
-    <!-- Status bar -->
     <Border DockPanel.Dock="Bottom" Background="#217346" Padding="12,4">
       <StackPanel Orientation="Horizontal">
         <TextBlock Name="CellRefText" Foreground="White" FontWeight="SemiBold" Margin="0,0,24,0" Text="A1"/>
