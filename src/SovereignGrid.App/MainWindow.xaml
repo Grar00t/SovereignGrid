@@ -59,7 +59,7 @@
 
       <ToolBar Band="3">
         <Button Name="FmtNumberBtn"   Content="1,000.00" Padding="6,3"/>
-        <Button Name="FmtCurrencyBtn" Content="﷼"        Padding="8,3"/>
+        <Button Name="FmtCurrencyBtn" Content="$" Padding="10,3"/>
         <Button Name="FmtPercentBtn"  Content="%"        Padding="8,3"/>
         <Button Name="FmtDateBtn"     Content="Date"     Padding="6,3"/>
       </ToolBar>
@@ -68,6 +68,8 @@
         <Button Name="BorderAllBtn"     Content="Borders"  Padding="6,3"/>
         <Button Name="BorderOutlineBtn" Content="Outline"  Padding="6,3"/>
         <Button Name="BorderNoneBtn"    Content="No Border" Padding="6,3"/>
+        <Separator/>
+        <Button Name="TableStyleBtn" Content="Format as Table" Padding="8,3"/>
       </ToolBar>
 
       <ToolBar Band="3">

@@ -101,6 +101,12 @@ public partial class MainWindow : Window
         DelRowBtn.Click += (_, _) => Sheet.DeleteRows(Sel.Row, 1);
         DelColBtn.Click += (_, _) => Sheet.DeleteColumns(Sel.Col, 1);
 
+        TableStyleBtn.Click += (_, _) =>
+        {
+            var style = TableStylePicker.Pick();
+            if (style != null) TableStyles.Apply(Sheet, Sel, style);
+        };
+
         RtlButton.Click += (_, _) => ToggleRtl();
 
         Sheet.SelectionRangeChanged += (_, _) => UpdateStatus();
