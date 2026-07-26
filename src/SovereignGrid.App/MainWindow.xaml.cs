@@ -159,6 +159,26 @@ public partial class MainWindow : Window
             catch { }
         };
 
+        FullScreenBtn.Click += (_, _) => ToggleFullScreen();
+
+        FormulaBox.TextChanged += (_, _) =>
+        {
+            if (FormulaBox.IsKeyboardFocused)
+                try { Sheet[Sel.Row, Sel.Col] = FormulaBox.Text; } catch { }
+        };
+
+        _grid.PreviewMouseWheel += (_, e) =>
+        {
+            if (System.Windows.Input.Keyboard.Modifiers == System.Windows.Input.ModifierKeys.Control)
+            {
+                double step = e.Delta > 0 ? 10 : -10;
+                ZoomSlider.Value = System.Math.Clamp(ZoomSlider.Value + step, ZoomSlider.Minimum, ZoomSlider.Maximum);
+                e.Handled = true;
+            }
+        };
+
+        this.KeyDown += (_, e) => { if (e.Key == System.Windows.Input.Key.F11) ToggleFullScreen(); };
+
         RtlButton.Click += (_, _) => ToggleRtl();
 
         Sheet.SelectionRangeChanged += (_, _) => UpdateStatus();
@@ -428,6 +448,29 @@ public partial class MainWindow : Window
         System.Windows.MessageBox.Show(
             string.IsNullOrEmpty(replace) ? $"Found {hits} match(es)."
                                           : $"Replaced in {hits} cell(s).");
+    }
+
+    private bool _isFull = false;
+    private WindowStyle _prevStyle;
+    private WindowState _prevState;
+
+    private void ToggleFullScreen()
+    {
+        if (!_isFull)
+        {
+            _prevStyle = this.WindowStyle;
+            _prevState = this.WindowState;
+            this.WindowStyle = WindowStyle.None;
+            this.WindowState = WindowState.Normal;   // reset so Maximized re-applies fullscreen
+            this.WindowState = WindowState.Maximized;
+            _isFull = true;
+        }
+        else
+        {
+            this.WindowStyle = _prevStyle;
+            this.WindowState = _prevState;
+            _isFull = false;
+        }
     }
 
     private void ToggleRtl()

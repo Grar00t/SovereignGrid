@@ -271,6 +271,7 @@
             <DockPanel>
               <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource GroupLabel}" Text="Direction"/>
               <Button Name="RtlButton" Style="{StaticResource RBText}" ToolTip="Toggle RTL / LTR" Content="RTL/LTR"/>
+                <Button Name="FullScreenBtn" Style="{StaticResource RBText}" ToolTip="Toggle Full Screen (F11)" Content="Full Screen"/>
             </DockPanel>
           </Border>
         </StackPanel></ScrollViewer>
@@ -327,6 +328,7 @@
     <Grid Name="RootGrid"/>
   </DockPanel>
 </Window>
+
 
 
 
