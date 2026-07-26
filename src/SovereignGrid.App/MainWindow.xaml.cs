@@ -112,6 +112,34 @@ public partial class MainWindow : Window
         UnfreezeBtn.Click += (_, _) => { try { Sheet.Unfreeze(); } catch { } };
         ExportPngBtn.Click += (_, _) => ExportChartPng();
 
+        AddSheetBtn.Click += (_, _) =>
+        {
+            try
+            {
+                var ws = _grid.CreateWorksheet("Sheet" + (_grid.Worksheets.Count + 1));
+                _grid.AddWorksheet(ws);
+                _grid.CurrentWorksheet = ws;
+            }
+            catch (System.Exception ex) { System.Windows.MessageBox.Show(ex.Message); }
+        };
+        DelSheetBtn.Click += (_, _) =>
+        {
+            try
+            {
+                if (_grid.Worksheets.Count <= 1) { System.Windows.MessageBox.Show("Cannot delete the only sheet."); return; }
+                _grid.RemoveWorksheet(Sheet);
+            }
+            catch (System.Exception ex) { System.Windows.MessageBox.Show(ex.Message); }
+        };
+        RenameSheetBtn.Click += (_, _) =>
+        {
+            var name = InputDialog.Ask("Rename Sheet", "New name:", Sheet.Name);
+            if (!string.IsNullOrWhiteSpace(name))
+                try { Sheet.Name = name; } catch (System.Exception ex) { System.Windows.MessageBox.Show(ex.Message); }
+        };
+
+        FindBtn.Click += (_, _) => ShowFindReplace();
+
         RtlButton.Click += (_, _) => ToggleRtl();
 
         Sheet.SelectionRangeChanged += (_, _) => UpdateStatus();
@@ -351,6 +379,34 @@ public partial class MainWindow : Window
         }
     }
 
+    private void ShowFindReplace()
+    {
+        var find = InputDialog.Ask("Find & Replace", "Find what:");
+        if (string.IsNullOrEmpty(find)) return;
+        var replace = InputDialog.Ask("Find & Replace", "Replace with (leave empty to just find):", "");
+
+        int hits = 0;
+        var s = Sheet;
+        int rows = s.Rows, cols = s.Columns;
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
+            {
+                var cell = s.GetCell(r, c);
+                if (cell?.Data == null) continue;
+                var text = cell.Data.ToString();
+                if (text != null && text.Contains(find))
+                {
+                    hits++;
+                    if (!string.IsNullOrEmpty(replace))
+                        s[r, c] = text.Replace(find, replace);
+                }
+            }
+
+        System.Windows.MessageBox.Show(
+            string.IsNullOrEmpty(replace) ? $"Found {hits} match(es)."
+                                          : $"Replaced in {hits} cell(s).");
+    }
+
     private void ToggleRtl()
     {
         this.FlowDirection = this.FlowDirection == System.Windows.FlowDirection.LeftToRight
@@ -358,3 +414,4 @@ public partial class MainWindow : Window
             : System.Windows.FlowDirection.LeftToRight;
     }
 }
+

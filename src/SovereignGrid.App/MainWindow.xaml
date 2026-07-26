@@ -123,6 +123,7 @@
                 <Button Name="CutBtn"   Style="{StaticResource RB}" ToolTip="Cut"   Content="&#xE8C6;"/>
                 <Button Name="CopyBtn"  Style="{StaticResource RB}" ToolTip="Copy"  Content="&#xE8C8;"/>
                 <Button Name="PasteBtn" Style="{StaticResource RB}" ToolTip="Paste" Content="&#xE77F;"/>
+                <Button Name="FindBtn" Style="{StaticResource RBText}" ToolTip="Find and Replace" Content="Find"/>
               </StackPanel>
             </DockPanel>
           </Border>
@@ -201,6 +202,9 @@
                 <Button Name="InsColBtn" Style="{StaticResource RBText}" ToolTip="Insert Column" Content="+Col"/>
                 <Button Name="DelRowBtn" Style="{StaticResource RBText}" ToolTip="Delete Row"    Content="-Row"/>
                 <Button Name="DelColBtn" Style="{StaticResource RBText}" ToolTip="Delete Column" Content="-Col"/>
+                <Button Name="AddSheetBtn"    Style="{StaticResource RBText}" ToolTip="Add Sheet"    Content="+Sheet"/>
+                <Button Name="DelSheetBtn"    Style="{StaticResource RBText}" ToolTip="Delete Sheet" Content="-Sheet"/>
+                <Button Name="RenameSheetBtn" Style="{StaticResource RBText}" ToolTip="Rename Sheet" Content="Rename"/>
               </StackPanel>
             </DockPanel>
           </Border>
@@ -310,3 +314,4 @@
     <Grid Name="RootGrid"/>
   </DockPanel>
 </Window>
+
