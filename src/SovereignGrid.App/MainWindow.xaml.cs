@@ -30,7 +30,7 @@ public partial class MainWindow : Window
         ConnectorBox.SelectedIndex = 0;
 
         FontBox.ItemsSource = new[] { "Segoe UI","Calibri","Arial","Tahoma","Times New Roman",
-                                      "Traditional Arabic","Simplified Arabic","Sakkal Majalla","Amiri" };
+                                      "Consolas","Verdana","Georgia" };
         FontBox.SelectedIndex = 0;
         SizeBox.ItemsSource = new[] { "8","9","10","11","12","14","16","18","20","24","28","36","48","72" };
         SizeBox.SelectedIndex = 3;
@@ -76,8 +76,7 @@ public partial class MainWindow : Window
 
         FmtNumberBtn.Click   += (_, _) => Sheet.SetRangeDataFormat(Sel, CellDataFormatFlag.Number,
             new NumberDataFormatter.NumberFormatArgs { DecimalPlaces = 2, UseSeparator = true });
-        FmtCurrencyBtn.Click += (_, _) => Sheet.SetRangeDataFormat(Sel, CellDataFormatFlag.Number,
-            new NumberDataFormatter.NumberFormatArgs { DecimalPlaces = 2, UseSeparator = true });
+        FmtCurrencyBtn.Click += (_, _) => ApplyCurrency();
         FmtPercentBtn.Click  += (_, _) => Sheet.SetRangeDataFormat(Sel, CellDataFormatFlag.Percent,
             new NumberDataFormatter.NumberFormatArgs { DecimalPlaces = 0 });
         FmtDateBtn.Click     += (_, _) => Sheet.SetRangeDataFormat(Sel, CellDataFormatFlag.DateTime,
@@ -95,12 +94,67 @@ public partial class MainWindow : Window
         DelColBtn.Click += (_, _) => Sheet.DeleteColumns(Sel.Col, 1);
 
         RtlButton.Click += (_, _) => ToggleRtl();
+
+        Sheet.SelectionRangeChanged += (_, _) => UpdateStatus();
+
+        this.KeyDown += (_, e) =>
+        {
+            if (System.Windows.Input.Keyboard.Modifiers == System.Windows.Input.ModifierKeys.Control)
+            {
+                if (e.Key == System.Windows.Input.Key.S) SaveXlsx();
+                else if (e.Key == System.Windows.Input.Key.O) OpenXlsx();
+                else if (e.Key == System.Windows.Input.Key.Z) _grid.Undo();
+                else if (e.Key == System.Windows.Input.Key.Y) _grid.Redo();
+            }
+        };
     }
 
     private void Apply(WorksheetRangeStyle style) => Sheet.SetRangeStyles(Sel, style);
 
     private static WorksheetRangeStyle HAlign(ReoGridHorAlign a) =>
         new() { Flag = PlainStyleFlag.HorizontalAlign, HAlign = a };
+
+    private void ApplyCurrency()
+    {
+        try
+        {
+            Sheet.SetRangeDataFormat(Sel, CellDataFormatFlag.Currency,
+                new CurrencyDataFormatter.CurrencyFormatArgs
+                {
+                    DecimalPlaces = 2,
+                    PrefixSymbol = "SAR ",
+                    CultureEnglishName = "en-US"
+                });
+        }
+        catch
+        {
+            Sheet.SetRangeDataFormat(Sel, CellDataFormatFlag.Number,
+                new NumberDataFormatter.NumberFormatArgs { DecimalPlaces = 2, UseSeparator = true });
+        }
+    }
+
+    private void UpdateStatus()
+    {
+        try
+        {
+            CellRefText.Text = Sel.StartPos.ToAddress();
+
+            double sum = 0; int count = 0;
+            for (int r = Sel.Row; r <= Sel.EndRow; r++)
+                for (int c = Sel.Col; c <= Sel.EndCol; c++)
+                {
+                    var cell = Sheet.GetCell(r, c);
+                    if (cell?.Data == null) continue;
+                    count++;
+                    if (double.TryParse(cell.Data.ToString(), out var v)) sum += v;
+                }
+
+            StatsText.Text = count > 1
+                ? $"Count: {count}    Sum: {sum:N2}    Average: {sum / count:N2}"
+                : "";
+        }
+        catch { }
+    }
 
     private void NewFile()
     {

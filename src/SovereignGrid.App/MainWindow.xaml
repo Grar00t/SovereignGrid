@@ -81,6 +81,12 @@
 
     </ToolBarTray>
 
+    <Border DockPanel.Dock="Bottom" Background="#1E3A5F" Padding="10,3">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Name="CellRefText"  Foreground="White" Margin="0,0,20,0" Text="A1"/>
+        <TextBlock Name="StatsText"    Foreground="#B9C6D8" Text=""/>
+      </StackPanel>
+    </Border>
     <Grid Name="RootGrid"/>
   </DockPanel>
 </Window>
