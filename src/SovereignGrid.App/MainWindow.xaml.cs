@@ -38,6 +38,8 @@ public partial class MainWindow : Window
 
         NewFile();
         WireEvents();
+        InitZoomTimer();
+        HookCellChanges();
     }
 
     private void WireEvents()
@@ -150,13 +152,9 @@ public partial class MainWindow : Window
 
         ZoomSlider.ValueChanged += (_, _) =>
         {
-            try
-            {
-                float z = (float)(ZoomSlider.Value / 100.0);
-                Sheet.SetScale(z);
-                ZoomText.Text = ((int)ZoomSlider.Value) + "%";
-            }
-            catch { }
+            ZoomText.Text = ((int)ZoomSlider.Value) + "%";
+            _zoomTimer.Stop();
+            _zoomTimer.Start();
         };
 
         FullScreenBtn.Click += (_, _) => ToggleFullScreen();
@@ -171,7 +169,7 @@ public partial class MainWindow : Window
         {
             if (System.Windows.Input.Keyboard.Modifiers == System.Windows.Input.ModifierKeys.Control)
             {
-                double step = e.Delta > 0 ? 10 : -10;
+                double step = e.Delta > 0 ? 5 : -5;
                 ZoomSlider.Value = System.Math.Clamp(ZoomSlider.Value + step, ZoomSlider.Minimum, ZoomSlider.Maximum);
                 e.Handled = true;
             }
@@ -450,6 +448,34 @@ public partial class MainWindow : Window
                                           : $"Replaced in {hits} cell(s).");
     }
 
+    private readonly System.Windows.Threading.DispatcherTimer _zoomTimer = new()
+        { Interval = System.TimeSpan.FromMilliseconds(120) };
+
+    private void InitZoomTimer()
+    {
+        _zoomTimer.Tick += (_, _) =>
+        {
+            _zoomTimer.Stop();
+            try { Sheet.SetScale((float)(ZoomSlider.Value / 100.0)); } catch { }
+        };
+    }
+
+    private void HookCellChanges()
+    {
+        try
+        {
+            Sheet.CellDataChanged += (_, ev) =>
+            {
+                if (!FormulaBox.IsKeyboardFocused)
+                {
+                    var cell = Sheet.GetCell(Sel.Row, Sel.Col);
+                    FormulaBox.Text = cell?.Data?.ToString() ?? "";
+                }
+            };
+        }
+        catch { }
+    }
+
     private bool _isFull = false;
     private WindowStyle _prevStyle;
     private WindowState _prevState;
@@ -480,4 +506,5 @@ public partial class MainWindow : Window
             : System.Windows.FlowDirection.LeftToRight;
     }
 }
+
 

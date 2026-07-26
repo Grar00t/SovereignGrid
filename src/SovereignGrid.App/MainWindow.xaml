@@ -311,7 +311,7 @@
         <TextBlock Name="StatsText" Foreground="#CDEBD9" Text=""/>
         <TextBlock Text="Zoom" Foreground="White" VerticalAlignment="Center" Margin="30,0,6,0"/>
         <Slider Name="ZoomSlider" Width="120" Minimum="50" Maximum="200" Value="100"
-                VerticalAlignment="Center" TickFrequency="10" IsSnapToTickEnabled="True"/>
+                VerticalAlignment="Center" TickFrequency="1" SmallChange="1" LargeChange="10"/>
         <TextBlock Name="ZoomText" Foreground="White" VerticalAlignment="Center" Margin="6,0,0,0" Text="100%"/>
       </StackPanel>
     </Border>
@@ -328,6 +328,7 @@
     <Grid Name="RootGrid"/>
   </DockPanel>
 </Window>
+
 
 
 
