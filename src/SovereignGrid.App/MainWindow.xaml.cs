@@ -44,6 +44,9 @@ public partial class MainWindow : Window
         ThemeBox.ItemsSource = new[] { "Green", "Blue", "Dark" };
         ThemeBox.SelectedIndex = 0;
         ThemeBox.SelectionChanged += (_, _) => ApplyTheme(ThemeBox.SelectedItem as string);
+        ThemeBox.ItemsSource = new[] { "Green", "Blue", "Dark" };
+        ThemeBox.SelectedIndex = 0;
+        ThemeBox.SelectionChanged += (_, _) => ApplyTheme(ThemeBox.SelectedItem as string);
     }
 
     private void WireEvents()
@@ -556,6 +559,7 @@ public partial class MainWindow : Window
         catch (System.Exception ex) { System.Windows.MessageBox.Show("Shape error: " + ex.Message); }
     }
 
+
     private bool _isFull = false;
     private WindowStyle _prevStyle;
     private WindowState _prevState;
@@ -586,5 +590,6 @@ public partial class MainWindow : Window
             : System.Windows.FlowDirection.LeftToRight;
     }
 }
+
 
 
