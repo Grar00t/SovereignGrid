@@ -4,6 +4,7 @@ using Microsoft.Win32;
 using SovereignGrid.App.Services;
 using SovereignGrid.Connectors.Abstractions;
 using unvell.ReoGrid;
+using unvell.ReoGrid.Chart;
 using unvell.ReoGrid.DataFormat;
 using unvell.ReoGrid.Graphics;
 using unvell.ReoGrid.IO;
@@ -46,6 +47,13 @@ public partial class MainWindow : Window
         OpenButton.Click   += async (_, _) => await OpenViaConnectorAsync();
         SaveButton.Click   += (_, _) => SaveXlsx();
         SaveAsBtn.Click    += (_, _) => SaveXlsx();
+
+        SaveSgBtn.Click += (_, _) => SaveSgrid();
+        OpenSgBtn.Click += (_, _) => OpenSgrid();
+
+        ChartColBtn.Click  += (_, _) => InsertChart("column");
+        ChartLineBtn.Click += (_, _) => InsertChart("line");
+        ChartPieBtn.Click  += (_, _) => InsertChart("pie");
 
         UndoBtn.Click  += (_, _) => _grid.Undo();
         RedoBtn.Click  += (_, _) => _grid.Redo();
@@ -116,13 +124,16 @@ public partial class MainWindow : Window
 
     private void ApplyCurrency()
     {
+        var symbol = CurrencyPickerDialog.Pick();
+        if (symbol is null) return;
+
         try
         {
             Sheet.SetRangeDataFormat(Sel, CellDataFormatFlag.Currency,
                 new CurrencyDataFormatter.CurrencyFormatArgs
                 {
                     DecimalPlaces = 2,
-                    PrefixSymbol = "SAR ",
+                    PrefixSymbol = symbol,
                     CultureEnglishName = "en-US"
                 });
         }
@@ -176,6 +187,58 @@ public partial class MainWindow : Window
         if (dlg.ShowDialog() == true)
             try { _grid.Save(dlg.FileName, FileFormat.Excel2007); }
             catch (System.Exception ex) { System.Windows.MessageBox.Show(ex.Message); }
+    }
+
+    // Native SovereignGrid format (.sgrid) - self-contained, offline, keeps cells+formulas+styles+charts
+    private void SaveSgrid()
+    {
+        var dlg = new SaveFileDialog { Filter = "SovereignGrid (*.sgrid)|*.sgrid", FileName = "workbook.sgrid" };
+        if (dlg.ShowDialog() == true)
+            try { _grid.Save(dlg.FileName, FileFormat.ReoGridFormat); }
+            catch (System.Exception ex) { System.Windows.MessageBox.Show(ex.Message); }
+    }
+
+    private void OpenSgrid()
+    {
+        var dlg = new OpenFileDialog { Filter = "SovereignGrid (*.sgrid)|*.sgrid" };
+        if (dlg.ShowDialog() == true)
+            try { _grid.Load(dlg.FileName, FileFormat.ReoGridFormat); }
+            catch (System.Exception ex) { System.Windows.MessageBox.Show(ex.Message); }
+    }
+
+    private void InsertChart(string kind)
+    {
+        try
+        {
+            if (Sel.Rows < 1 || Sel.Cols < 1)
+            {
+                System.Windows.MessageBox.Show("Select a data range first.");
+                return;
+            }
+
+            var dataRange = Sel;
+            var categoryRange = new RangePosition(dataRange.Row, dataRange.Col, dataRange.Rows, 1);
+
+            var ds = new WorksheetChartDataSource(Sheet, categoryRange, dataRange);
+
+            Chart chart = kind switch
+            {
+                "line" => new LineChart(),
+                "pie"  => new PieChart(),
+                _      => new ColumnChart()
+            };
+
+            chart.Location = new unvell.ReoGrid.Graphics.Point(320, 20);
+            chart.Size = new unvell.ReoGrid.Graphics.Size(420, 280);
+            chart.Title = "Chart";
+            chart.DataSource = ds;
+
+            Sheet.FloatingObjects.Add(chart);
+        }
+        catch (System.Exception ex)
+        {
+            System.Windows.MessageBox.Show("Chart error: " + ex.Message);
+        }
     }
 
     private async System.Threading.Tasks.Task OpenViaConnectorAsync()

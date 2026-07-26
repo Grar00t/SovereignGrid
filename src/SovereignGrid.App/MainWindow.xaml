@@ -78,6 +78,14 @@
         <Separator/>
         <Button Name="RtlButton" Content="RTL/LTR" Padding="6,3"/>
       </ToolBar>
+      <ToolBar Band="1">
+        <Button Name="SaveSgBtn" Content=".sgrid Save" Padding="8,3"/>
+        <Button Name="OpenSgBtn" Content=".sgrid Open" Padding="8,3"/>
+        <Separator/>
+        <Button Name="ChartColBtn"  Content="Column Chart" Padding="8,3"/>
+        <Button Name="ChartLineBtn" Content="Line Chart"   Padding="8,3"/>
+        <Button Name="ChartPieBtn"  Content="Pie Chart"    Padding="8,3"/>
+      </ToolBar>
 
     </ToolBarTray>
 
@@ -90,3 +98,4 @@
     <Grid Name="RootGrid"/>
   </DockPanel>
 </Window>
+
